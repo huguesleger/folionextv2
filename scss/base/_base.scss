@@ -5,6 +5,10 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+#app {
+  overflow: hidden;
+}
+
 .container {
   max-width: 1300px;
   width: 100%;

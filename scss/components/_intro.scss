@@ -5,6 +5,9 @@
   padding-top: 7rem;
   padding-bottom: 2rem;
   height: 100vh;
+  opacity: 0;
+  visibility: hidden;
+  transition: 0.3s ease-in-out;
   .wrap-title {
     .inner-title {
       overflow: hidden;
@@ -16,10 +19,15 @@
         line-height: 1;
         font-family: $font_gallient;
         letter-spacing: 2px;
+        letter-spacing: 2px;
+        transition: transform 1.25s cubic-bezier(0.31, 0, 0.05, 0.93) 0.1s;
+        transform: translateY(110%) rotate(3deg);
         span {
           font-family: $font_nunito;
           font-weight: 600;
           letter-spacing: initial;
+          transform: translateY(100%) rotate(3deg);
+          transition: transform 1s cubic-bezier(0.31, 0, 0.05, 0.93) 0.1s;
         }
       }
     }
@@ -27,6 +35,15 @@
   .inner-img {
     display: flex;
     overflow: hidden;
+    max-width: 420px;
+    transition: transform 0.5s cubic-bezier(0.31, 0, 0.05, 0.93) 1.2s;
+    transform: rotate(2deg);
+    .img-intro {
+      width: 100%;
+      height: auto;
+      transition: transform 0.8s cubic-bezier(0.31, 0, 0.05, 0.93) 1s;
+      transform: translateY(125%) scale(1.5);
+    }
   }
   .block-bottom {
     display: flex;
@@ -34,16 +51,28 @@
     .wrap-enter {
       display: flex;
       align-items: flex-end;
+      .inner-arrow {
+        transition: opacity 1.25s ease 1s;
+        opacity: 0;
+      }
       .inner-enter {
         display: flex;
         flex-direction: column;
         padding-left: 0.5rem;
+        overflow: hidden;
+        cursor: pointer;
         .title-enter {
           font-family: $font_gallient;
           font-size: 3rem;
           line-height: 1;
           text-transform: uppercase;
           padding-bottom: 0.3rem;
+          transition: transform 1s cubic-bezier(0.31, 0, 0.05, 0.93) 0.1s;
+          transform: translateY(200%) rotate(3deg);
+        }
+        .txt-enter {
+          transition: transform 1.25s cubic-bezier(0.31, 0, 0.05, 0.93) 0.2s;
+          transform: translateY(100%) rotate(3deg);
         }
       }
     }
@@ -51,6 +80,7 @@
       display: flex;
       justify-content: flex-end;
       align-items: center;
+      overflow: hidden;
       .name {
         display: inline-flex;
         flex-direction: column;
@@ -60,22 +90,64 @@
         font-weight: 600;
         text-align: right;
         line-height: 1;
+        transition: transform 1.25s cubic-bezier(0.31, 0, 0.05, 0.93) 0.5s;
+        transform: translateY(100%) rotate(3deg);
         span {
           font-weight: initial;
           font-family: $font_gallient;
           letter-spacing: 2px;
+          transform: translateY(100%) rotate(3deg);
+          transition: transform 1s cubic-bezier(0.31, 0, 0.05, 0.93) 0.5s;
         }
       }
       .city {
         padding-left: 1rem;
+        transition: opacity 1.25s ease 1s;
+        opacity: 0;
         img {
           animation: 10s linear infinite rotate;
         }
       }
     }
   }
-  .img-intro {
-    max-width: 420px;
-    height: auto;
+  &.is-show {
+    opacity: 1;
+    visibility: visible;
+    .wrap-title {
+      .inner-title {
+        .title,
+        span {
+          transform: translate(0) rotate(0);
+        }
+      }
+    }
+    .inner-img {
+      transform: rotate(0);
+      .img-intro {
+        transform: translate(0) scale(1);
+      }
+    }
+    .block-bottom {
+      .wrap-enter {
+        .inner-arrow {
+          opacity: 1;
+        }
+        .inner-enter {
+          .title-enter,
+          .txt-enter {
+            transform: translate(0) rotate(0);
+          }
+        }
+      }
+      .wrap-name {
+        .name,
+        span {
+          transform: translate(0) rotate(0);
+        }
+        .city {
+          opacity: 1;
+        }
+      }
+    }
   }
 }

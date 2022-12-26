@@ -1,6 +1,8 @@
 import Image from "next/image";
-import React from "react";
+import React, { useEffect } from "react";
+import { useRef } from "react";
 import formatTxt from "../lib/functions/formatTxt";
+import gsap from "gsap";
 
 type IntroType = {
   title: string;
@@ -20,8 +22,26 @@ const Intro = ({
   titleEnter,
   textEnter,
 }: IntroType): JSX.Element => {
+  const intro = useRef<HTMLDivElement>(null);
+  const onClick = () => {
+    const tl = gsap.timeline();
+
+    tl.to(intro.current, {
+      yPercent: -150,
+      rotate: -8,
+      opacity: 0,
+      duration: 1.2,
+      ease: "Power2.ease",
+      delay: 0.3,
+      onComplete: () => {
+        if (intro.current !== null) {
+          intro.current.classList.remove("is-show");
+        }
+      },
+    });
+  };
   return (
-    <>
+    <div className="intro container" ref={intro}>
       <div className="wrap-title">
         <div className="inner-title">
           <h1 className="title">{formatTxt(title)}</h1>
@@ -46,7 +66,7 @@ const Intro = ({
               alt="entrez"
             />
           </div>
-          <div className="inner-enter">
+          <div className="inner-enter" onClick={onClick}>
             <span className="title-enter">{formatTxt(titleEnter)}</span>
             <span className="txt-enter">{formatTxt(textEnter)}</span>
           </div>
@@ -65,7 +85,7 @@ const Intro = ({
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

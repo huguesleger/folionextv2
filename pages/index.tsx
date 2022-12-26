@@ -11,14 +11,12 @@ const Home: (props: { home: GraphQLResponse.Home }) => JSX.Element = (props: {
 }) => {
   return (
     <>
-      <div className="intro container">
-        <Intro
-          title={props.home.titre}
-          image={props.home.image}
-          titleEnter={props.home.titreEntrer}
-          textEnter={props.home.texteEntrer}
-        />
-      </div>
+      <Intro
+        title={props.home.titre}
+        image={props.home.image}
+        titleEnter={props.home.titreEntrer}
+        textEnter={props.home.texteEntrer}
+      />
     </>
   );
 };
