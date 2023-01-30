@@ -53,7 +53,8 @@ const Intro = ({
           src={image.url}
           width={image.width}
           height={image.height}
-          alt={image.alt}
+          // alt={image.alt}
+          alt="toto"
         />
       </div>
       <div className="block-bottom">
