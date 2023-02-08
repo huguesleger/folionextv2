@@ -23,7 +23,9 @@ const Intro = ({
   textEnter,
 }: IntroType): JSX.Element => {
   const intro = useRef<HTMLDivElement>(null);
+
   const onClick = () => {
+    const works = document.querySelector(".works");
     const tl = gsap.timeline();
 
     tl.to(intro.current, {
@@ -37,6 +39,13 @@ const Intro = ({
         if (intro.current !== null) {
           intro.current.classList.remove("is-show");
         }
+        tl.to(works, {
+          opacity: 1,
+          visibility: "visible",
+          delay: 0.6,
+          duration: 0.8,
+          ease: "Power2.ease",
+        });
       },
     });
   };

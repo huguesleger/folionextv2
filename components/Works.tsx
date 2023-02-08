@@ -1,6 +1,9 @@
 import React, { useEffect, useRef } from "react";
 import * as PIXI from "pixi.js";
 import fit from "math-fit";
+import gsap from "gsap";
+import { CustomEase } from "gsap/dist/CustomEase";
+gsap.registerPlugin(CustomEase);
 
 const Work = ({ props }: any): JSX.Element => {
   // @ts-ignore
@@ -12,7 +15,7 @@ const Work = ({ props }: any): JSX.Element => {
   let canvas: any;
   let container: any;
   let thumbs: any[];
-  let direction: any;
+  let displacementFilter2: any;
 
   let width = window.innerWidth;
   let height = window.innerHeight;
@@ -22,17 +25,14 @@ const Work = ({ props }: any): JSX.Element => {
   let margin = 950;
   let wholeHeight = margin * projets.length;
   let aspect = 0.66;
-  // let imageWidth = 800;
   let imageWidth = 500;
   let imageHeight = imageWidth / aspect;
-  // let imageHeight = 1200;
 
   const initPixi = () => {
     canvas = refCanvas.current;
     app = new PIXI.Application({
       width: width,
       height: height,
-      // backgroundColor: 0xffffff,
       backgroundColor: 0x171717,
       antialias: true,
     });
@@ -40,6 +40,7 @@ const Work = ({ props }: any): JSX.Element => {
     canvas.appendChild(app.view);
 
     container = new PIXI.Container();
+    // container.rotation = -0.1;
     app.stage.addChild(container);
   };
 
@@ -54,13 +55,10 @@ const Work = ({ props }: any): JSX.Element => {
     projets.forEach((img, i) => {
       let c = new PIXI.Container();
       let containerImage = new PIXI.Container();
-      // c.pivot.x = -width / 2;
       c.pivot.x = -width / 3;
       c.pivot.y = -height / 2;
 
       let image = PIXI.Sprite.from(img.imageSlider.url);
-      // image.width = imageWidth;
-      // image.height = imageHeight;
       image.anchor.set(0.5);
       c.addChild(image);
       containerImage.addChild(c);
@@ -86,7 +84,7 @@ const Work = ({ props }: any): JSX.Element => {
       let uniforms = {
         uPower: 0,
         uDir: 1,
-        udisplacement: PIXI.Sprite.from("../images/displacement.png").texture,
+        udisplacement: PIXI.Sprite.from("../images/round-disp.jpg").texture,
         umap: image.texture,
         filterMatrix: new PIXI.Matrix(),
       };
@@ -126,19 +124,18 @@ const Work = ({ props }: any): JSX.Element => {
       const fragment = `
         uniform mat3 projectionMatrix;
         uniform mat3 filterMatrix;
-        
+
         varying vec2 vTextureCoord;
-        varying vec2 vFilterCoord; 
-        
+        varying vec2 vFilterCoord;
+
         uniform vec4 inputSize;
         uniform vec4 outputFrame;
         uniform float uPower;
         uniform float uDir;
-        
+
         uniform sampler2D udisplacement;
         uniform sampler2D umap;
-        
-        
+
         void main(void)
         {
         vec2 uv = vFilterCoord;
@@ -160,6 +157,24 @@ const Work = ({ props }: any): JSX.Element => {
 
       image.filters = [displacementFilter];
 
+      // filter on enter slider
+      const displacementSprite = PIXI.Sprite.from(
+        "../images/displacement-filter.jpg"
+      );
+
+      displacementSprite.position.set(cover.left, cover.top);
+      displacementSprite.scale.set(cover.scale, cover.scale);
+
+      displacementSprite.texture.baseTexture.wrapMode = PIXI.WRAP_MODES.REPEAT;
+      displacementFilter2 = new PIXI.filters.DisplacementFilter(
+        displacementSprite
+      );
+
+      displacementFilter2.scale.x = 60;
+      displacementFilter2.scale.y = 40;
+
+      containerImage.filters = [displacementFilter2];
+
       let mask = new PIXI.Graphics();
 
       c.addChild(mask);
@@ -174,6 +189,24 @@ const Work = ({ props }: any): JSX.Element => {
         uniforms: uniforms,
         position: i,
       });
+
+      const tl = gsap.timeline();
+      const btnStartAnim = document.querySelector(".inner-enter");
+      tl.set(image.transform.pivot, {
+        y: -1800,
+      });
+
+      btnStartAnim?.addEventListener("click", function () {
+        tl.to(image.transform.pivot, {
+          y: 0,
+          duration: 0.8,
+          ease: CustomEase.create(
+            "custom",
+            "M0,0 C0.126,0.382 0.112,0.752 0.392,0.892 0.466,0.929 0.818,1.001 1,1 "
+          ),
+          delay: 3,
+        });
+      });
     });
   };
 
@@ -181,9 +214,7 @@ const Work = ({ props }: any): JSX.Element => {
     thumbs.forEach((slide) => {
       slide.mask.clear();
       slide.mask.beginFill(0xff0000);
-      // let mx = 260;
-      // let my = 320;
-      let mx = imageWidth - 250;
+      let mx = imageWidth - 260;
       let my = imageHeight - 450;
       let distortion = scroll * 5;
       let coef = 0.2;
@@ -251,6 +282,37 @@ const Work = ({ props }: any): JSX.Element => {
         ((slide.position * margin + currentScroll + 1000 * wholeHeight) %
           wholeHeight) -
         margin;
+
+      // console.log(slide.image.parent.parent, "onpdate");
+
+      if (slide.container.position.y > 0 || slide.container.position.y < 0) {
+        // console.log(slide.image.parent.parent.filters[0].scale, "onScroll");
+        // slide.image.parent.parent.filters = null;
+        // gsap.to(slide.image.parent.parent.filters[0].scale, {
+        //   x: 0,
+        //   y: 0,
+        //   duration: 0.1,
+        // });
+      }
+    });
+  };
+
+  const filterAnim = () => {
+    const tl = gsap.timeline();
+    const btnStartAnim = document.querySelector(".inner-enter");
+
+    btnStartAnim?.addEventListener("click", function () {
+      thumbs.forEach((slide) => {
+        tl.to(slide.image.parent.parent.filters[0].scale, {
+          x: 0,
+          y: 0,
+          duration: 0.6,
+          delay: 1.5,
+          onComplete: () => {
+            slide.image.parent.parent.filters = null;
+          },
+        });
+      });
     });
   };
 
@@ -260,29 +322,14 @@ const Work = ({ props }: any): JSX.Element => {
     });
   };
 
-  // let calcPos = (src: any, pos: any) => {
-  //   let temp =
-  //     ((src + pos + wholeHeight + imageHeight + margin) % wholeHeight) -
-  //     imageHeight -
-  //     margin;
-
-  //   return temp;
-  // };
-
   const render = () => {
     app.ticker.add(() => {
       app.renderer.render(container);
       updateAllTheThings();
-
       scroll -= (scroll - scrollTarget) * 0.1;
       scrollTarget *= 0.9;
-      direction = Math.sign(scroll);
+      // let direction = Math.sign(scroll);
       currentScroll += scroll;
-
-      // thumbs.forEach((th: any) => {
-      //   // th.y = calcPos(scroll, th.y);
-      //   th.y = scroll;
-      // });
     });
   };
 
@@ -290,6 +337,7 @@ const Work = ({ props }: any): JSX.Element => {
     initPixi();
     add();
     scrollEvent();
+    filterAnim();
     render();
   }, []);
 
