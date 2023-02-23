@@ -1,0 +1,9 @@
+.wrapper-word {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  .char {
+    display: inline-block;
+    white-space: pre;
+  }
+}
