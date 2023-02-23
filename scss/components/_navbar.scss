@@ -1,0 +1,90 @@
+.header {
+  position: fixed;
+  width: 100%;
+  mix-blend-mode: difference;
+  height: 72px;
+  z-index: 10;
+  .header-content {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    color: #fff;
+    height: 100%;
+    padding-top: 1rem;
+    .logo {
+      display: flex;
+    }
+    .name {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+    }
+  }
+}
+
+.btn-main {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 25px;
+  height: 25px;
+  transition: transform 0.5s ease-in-out;
+  cursor: pointer;
+  .main-bar {
+    display: block;
+    position: absolute;
+    top: 50%;
+    width: 25px;
+    height: 2px;
+    background-color: #fff;
+    transition: 0.3s ease-in-out;
+    &::before,
+    &::after {
+      content: "";
+      position: absolute;
+      width: 15px;
+      height: 2px;
+      top: 0;
+      background-color: #fff;
+      transition: width 0.3s ease-out, transform 0.3s ease-in-out;
+    }
+    &::before {
+      left: 0;
+      transform: translateY(-8px);
+    }
+    &::after {
+      right: 0;
+      transform: translateY(8px);
+    }
+  }
+  &:hover {
+    .main-bar {
+      &::before,
+      &::after {
+        width: 25px;
+      }
+    }
+  }
+  &.is-open {
+    .main-bar {
+      transform: rotate(180deg);
+      transform-origin: center center;
+      background-color: transparent;
+      &::before,
+      &::after {
+        transform-origin: center center;
+      }
+      &::before {
+        width: 25px;
+        background-color: #fff;
+        transform: translateY(0) rotate(45deg);
+      }
+      &::after {
+        width: 25px;
+        background-color: #fff;
+        transform: translateY(0) rotate(-45deg);
+      }
+    }
+  }
+}
