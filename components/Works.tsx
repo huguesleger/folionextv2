@@ -8,7 +8,6 @@ gsap.registerPlugin(CustomEase);
 const Work = ({ props }: any): JSX.Element => {
   // @ts-ignore
   const projets: [GraphQLResponse.Projet] = props && props.projets;
-
   const refCanvas = useRef<HTMLDivElement>(null);
 
   let app: any;
@@ -22,11 +21,16 @@ const Work = ({ props }: any): JSX.Element => {
   let scrollTarget = 0;
   let scroll = 0;
   let currentScroll = 0;
-  let margin = 950;
-  let wholeHeight = margin * projets.length;
+  // let margin = 950;
+  let margin = 300;
+  // let wholeHeight = margin * projets.length;
+  // let wholeHeightSlide = margin;
   let aspect = 0.66;
   let imageWidth = 500;
   let imageHeight = imageWidth / aspect;
+  let wholeHeight = projets.length * (imageHeight + margin);
+  let currentProgress = 189;
+  let progress = 189 / projets.length - 1;
 
   const initPixi = () => {
     canvas = refCanvas.current;
@@ -35,12 +39,17 @@ const Work = ({ props }: any): JSX.Element => {
       height: height,
       backgroundColor: 0x171717,
       antialias: true,
+      autoDensity: true,
+      resolution: window.devicePixelRatio || 1,
+      resizeTo: window,
     });
 
     canvas.appendChild(app.view);
 
     container = new PIXI.Container();
     // container.rotation = -0.1;
+
+    // container.pivot.y = -margin;
     app.stage.addChild(container);
   };
 
@@ -53,10 +62,29 @@ const Work = ({ props }: any): JSX.Element => {
     };
 
     projets.forEach((img, i) => {
+      // i = i + 1;
       let c = new PIXI.Container();
       let containerImage = new PIXI.Container();
-      c.pivot.x = -width / 3;
-      c.pivot.y = -height / 2;
+      // let containerText = new PIXI.Container();
+      c.pivot.x = -width / 2;
+      c.pivot.y = -height / 2 - 16;
+
+      containerImage.y = (margin + imageHeight) * i - imageHeight / margin;
+
+      // const text = new Text(img.titre.toUpperCase(), {
+      //   fontFamily: "Nunito Sans",
+      //   fontSize: 80,
+      //   fill: 0xffffff,
+      //   wordWrap: true,
+      //   wordWrapWidth: 500,
+      //   lineHeight: 80,
+      //   fontWeight: "700",
+      // });
+
+      // containerText.addChild(text);
+
+      // containerText.pivot.x = -width / 2 + containerText.width / 2;
+      // containerText.pivot.y = -height / 2 + 50;
 
       let image = PIXI.Sprite.from(img.imageSlider.url);
       image.anchor.set(0.5);
@@ -173,14 +201,22 @@ const Work = ({ props }: any): JSX.Element => {
       displacementFilter2.scale.x = 60;
       displacementFilter2.scale.y = 40;
 
-      containerImage.filters = [displacementFilter2];
+      if (i === 0) {
+        containerImage.filters = [displacementFilter2];
+      }
 
       let mask = new PIXI.Graphics();
 
       c.addChild(mask);
       c.mask = mask;
 
+      containerImage.on("mouseover", mouseHover);
+      containerImage.on("mouseout", mouseOut);
+
       container.addChild(containerImage);
+      // containerImage.addChild(containerText);
+
+      // console.log(container);
 
       thumbs.push({
         mask: mask,
@@ -188,15 +224,42 @@ const Work = ({ props }: any): JSX.Element => {
         image: image,
         uniforms: uniforms,
         position: i,
+        isVisible: false,
+        dataAttribute: i + 1,
       });
 
       const tl = gsap.timeline();
       const btnStartAnim = document.querySelector(".inner-enter");
+      const title = document.querySelector(".title-item.active .item-link");
+      const titleHover = document.querySelectorAll(
+        ".title-item .item-hover .wrapper-word .char"
+      );
+      const titleWorks = document.querySelector(".title-works");
+      const innerItems = document.querySelector(".inner-items");
+      const progressWork = document.querySelector(".progress-work");
+
       tl.set(image.transform.pivot, {
         y: -1800,
-      });
+      })
+        .set(title, {
+          yPercent: 100,
+          rotate: 6,
+        })
+        .set(titleWorks, {
+          xPercent: -100,
+        })
+        .set(innerItems, {
+          xPercent: 100,
+        })
+        .set(progressWork, {
+          opacity: 0,
+        })
+        .set(titleHover, {
+          yPercent: 100,
+        });
 
       btnStartAnim?.addEventListener("click", function () {
+        containerImage.interactive = true;
         tl.to(image.transform.pivot, {
           y: 0,
           duration: 0.8,
@@ -205,6 +268,34 @@ const Work = ({ props }: any): JSX.Element => {
             "M0,0 C0.126,0.382 0.112,0.752 0.392,0.892 0.466,0.929 0.818,1.001 1,1 "
           ),
           delay: 3,
+          onStart: () => {
+            gsap.to(titleWorks, {
+              xPercent: 0,
+              duration: 0.5,
+              ease: "Power2.ease",
+              delay: 0.5,
+            });
+          },
+          onComplete: () => {
+            gsap.to(title, {
+              yPercent: 0,
+              rotate: 0,
+              duration: 0.5,
+              ease: "Power2.ease",
+            });
+            gsap.to(innerItems, {
+              xPercent: 0,
+              duration: 0.5,
+              ease: "Power2.easeInOut",
+              delay: 0.5,
+            });
+            gsap.to(progressWork, {
+              opacity: 1,
+              duration: 0.5,
+              ease: "Power2.easeInOut",
+              delay: -0.5,
+            });
+          },
         });
       });
     });
@@ -216,7 +307,7 @@ const Work = ({ props }: any): JSX.Element => {
       slide.mask.beginFill(0xff0000);
       let mx = imageWidth - 260;
       let my = imageHeight - 450;
-      let distortion = scroll * 5;
+      let distortion = scroll * 2;
       let coef = 0.2;
 
       slide.uniforms.uDir = Math.sign(distortion);
@@ -247,10 +338,10 @@ const Work = ({ props }: any): JSX.Element => {
         p[3].x -= Math.abs(distortion) * 0.4;
         p[3].y -= Math.abs(distortion) * 0.4;
       } else {
-        p[0].x -= Math.abs(distortion) * 0.4;
-        p[0].y += Math.abs(distortion) * 0.4;
-        p[1].x += Math.abs(distortion) * 0.4;
-        p[1].y += Math.abs(distortion) * 0.4;
+        p[0].x -= Math.abs(distortion) * 0.2;
+        p[0].y += Math.abs(distortion) * 0.2;
+        p[1].x += Math.abs(distortion) * 0.2;
+        p[1].y += Math.abs(distortion) * 0.2;
       }
 
       let control = [
@@ -278,10 +369,12 @@ const Work = ({ props }: any): JSX.Element => {
       slide.mask.quadraticCurveTo(control[2].x, control[2].y, p[3].x, p[3].y);
       slide.mask.quadraticCurveTo(control[3].x, control[3].y, p[0].x, p[0].y);
 
-      slide.container.position.y =
-        ((slide.position * margin + currentScroll + 1000 * wholeHeight) %
-          wholeHeight) -
-        margin;
+      // slide.container.position.y =
+      //   ((slide.position * margin + currentScroll + 1000 * wholeHeight) %
+      //     wholeHeight) -
+      //   margin;
+
+      slide.container.position.y = calcPos(scroll, slide.container.position.y);
 
       // console.log(slide.image.parent.parent, "onpdate");
 
@@ -293,6 +386,19 @@ const Work = ({ props }: any): JSX.Element => {
         //   y: 0,
         //   duration: 0.1,
         // });
+        // const title = document.querySelectorAll(".wrap-project-name");
+        // const wrapTitle = document.querySelector(".title-list");
+        // const tl = gsap.timeline();
+        // tl.fromTo(
+        //   wrapTitle,
+        //   {
+        //     yPercent: 0,
+        //   },
+        //   {
+        //     yPercent: -(100 - 100 / title.length),
+        //     duration: 1,
+        //   }
+        // );
       }
     });
   };
@@ -302,23 +408,173 @@ const Work = ({ props }: any): JSX.Element => {
     const btnStartAnim = document.querySelector(".inner-enter");
 
     btnStartAnim?.addEventListener("click", function () {
-      thumbs.forEach((slide) => {
-        tl.to(slide.image.parent.parent.filters[0].scale, {
-          x: 0,
-          y: 0,
-          duration: 0.6,
-          delay: 1.5,
-          onComplete: () => {
-            slide.image.parent.parent.filters = null;
-          },
-        });
+      thumbs.forEach((slide, i) => {
+        if (i === 0) {
+          tl.to(slide.image.parent.parent.filters[0].scale, {
+            x: 0,
+            y: 0,
+            duration: 0.6,
+            delay: 3.5,
+            onComplete: () => {
+              slide.image.parent.parent.filters = null;
+            },
+          });
+        }
       });
     });
   };
 
+  let calcPos = (src: any, pos: any) => {
+    let temp =
+      ((src + pos + wholeHeight + imageHeight + margin) % wholeHeight) -
+      imageHeight -
+      margin;
+
+    return temp;
+  };
+
+  const mouseHover = (e: any) => {
+    const titleActive = document.querySelector(".title-item.active .item-link");
+    const char = titleActive?.querySelectorAll(".wrapper-word .char");
+    const titleHoverActive = document.querySelector(
+      ".title-item.active .item-hover"
+    );
+    const charHover = titleHoverActive?.querySelectorAll(".wrapper-word .char");
+    const el = e.target.children[0].children[0];
+    const tl = gsap.timeline();
+    const tlSettings = {
+      staggerVal: 0.015,
+      charsDuration: 0.7,
+    };
+    tl.to(el.transform.scale, {
+      x: 0.454570707070707,
+      y: 0.454570707070707,
+      duration: 0.5,
+      ease: "Power2.easeInOut",
+      onStart: () => {
+        if (char) {
+          gsap.to(char, {
+            yPercent: -100,
+            ease: "Power2.easeInOut",
+            duration: tlSettings.charsDuration,
+            stagger: tlSettings.staggerVal,
+          });
+          if (charHover) {
+            gsap.to(charHover, {
+              yPercent: 0,
+              ease: "Power2.easeInOut",
+              duration: tlSettings.charsDuration,
+              stagger: tlSettings.staggerVal,
+            });
+          }
+        }
+      },
+    });
+    const cursor = document.querySelector(".cursor");
+    cursor?.classList.add("has-canvas");
+    const label = document.querySelector(".cursor-label-canvas");
+    label?.classList.remove("label-hidden");
+  };
+
+  const mouseOut = (e: any) => {
+    const titleActive = document.querySelector(".title-item.active .item-link");
+    const char = titleActive?.querySelectorAll(".wrapper-word .char");
+    const titleHoverActive = document.querySelector(
+      ".title-item.active .item-hover"
+    );
+    const charHover = titleHoverActive?.querySelectorAll(".wrapper-word .char");
+    const el = e.currentTarget.children[0].children[0];
+    const tl = gsap.timeline();
+    const tlSettings = {
+      staggerVal: 0.015,
+      charsDuration: 0.7,
+    };
+    tl.to(el.transform.scale, {
+      x: 0.394570707070707,
+      y: 0.394570707070707,
+      duration: 0.5,
+      ease: "Power2.easeInOut",
+      onStart: () => {
+        if (charHover) {
+          gsap.to(charHover, {
+            yPercent: 100,
+            ease: "Power2.easeInOut",
+            duration: tlSettings.charsDuration,
+            stagger: tlSettings.staggerVal,
+          });
+          if (char) {
+            gsap.to(char, {
+              yPercent: 0,
+              ease: "Power2.easeInOut",
+              duration: tlSettings.charsDuration,
+              stagger: tlSettings.staggerVal,
+            });
+          }
+        }
+      },
+    });
+    const cursor = document.querySelector(".cursor");
+    cursor?.classList.remove("has-canvas");
+    const label = document.querySelector(".cursor-label-canvas");
+    label?.classList.add("label-hidden");
+  };
+
   const scrollEvent = () => {
-    document.addEventListener("wheel", (e) => {
+    window.addEventListener("wheel", (e) => {
       scrollTarget = e.deltaY / 3;
+
+      const scrollY = window.scrollY; // Position verticale de la fenêtre
+      const windowHeight = window.innerHeight; // Hauteur de la fenêtre
+      const sliderHeight = wholeHeight; // Hauteur du slider
+      let visibleImageIndex = -1;
+
+      const progressCircleLine: any = document.querySelector(
+        ".circle-line-progress"
+      );
+      const tl = gsap.timeline();
+      thumbs.forEach((th, i) => {
+        // console.log(th.container.position.y, "th");
+
+        const containerTop = th.container.position.y - scrollY; // Position verticale du container par rapport à la fenêtre
+        const containerBottom =
+          containerTop + th.image.height - margin - scroll; // Position verticale du bas du container par rapport à la fenêtre
+
+        if (containerTop < windowHeight && containerBottom > 0) {
+          // L'image est partiellement ou entièrement visible dans la fenêtre
+          visibleImageIndex = i;
+        }
+        if (i === 5 && th.container.y < 0 && th.container.y < -margin) {
+          visibleImageIndex = 0;
+        }
+      });
+      const titles = document.querySelectorAll(".title-item");
+      const numberItem: any = document.querySelector(".number-item span");
+
+      titles.forEach((title, i) => {
+        if (i === visibleImageIndex) {
+          title.classList.add("active");
+          numberItem.innerHTML = visibleImageIndex + 1;
+        } else {
+          title.classList.remove("active");
+        }
+      });
+
+      if (progressCircleLine) {
+        progressCircleLine.style.strokeDashoffset =
+          currentProgress + currentScroll / progress + "px";
+      }
+    });
+  };
+
+  const resize = () => {
+    window.addEventListener("resize", function () {
+      app.view.style.width = innerWidth + "px";
+      app.view.style.height = innerHeight + "px";
+
+      thumbs.forEach((th) => {
+        th.container.children[0].pivot.x = -window.innerWidth / 2;
+        th.container.children[0].pivot.y = -window.innerHeight / 2;
+      });
     });
   };
 
@@ -330,6 +586,10 @@ const Work = ({ props }: any): JSX.Element => {
       scrollTarget *= 0.9;
       // let direction = Math.sign(scroll);
       currentScroll += scroll;
+
+      // thumbs.forEach((th) => {
+      //   th.container.position.y = calcPos(scroll, th.container.position.y);
+      // });
     });
   };
 
@@ -337,11 +597,12 @@ const Work = ({ props }: any): JSX.Element => {
     initPixi();
     add();
     scrollEvent();
+    resize();
     filterAnim();
     render();
   }, []);
 
-  return <div ref={refCanvas} className="works"></div>;
+  return <div ref={refCanvas} className="canvas-works"></div>;
 };
 
 export default Work;
