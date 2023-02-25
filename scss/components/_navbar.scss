@@ -15,9 +15,28 @@
     .logo {
       display: flex;
     }
-    .name {
-      font-size: 0.8rem;
-      text-transform: uppercase;
+    .wrap-name {
+      position: relative;
+      .name,
+      .name-hover {
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        transition: transform 0.45s cubic-bezier(0.1, 0.76, 0.4, 0.94);
+        line-height: 1;
+      }
+      .name-hover {
+        position: absolute;
+        transform-origin: 50% 50%;
+        transform: translate3d(0, 0, 0) rotateX(-90deg);
+      }
+      &:hover {
+        .name {
+          transform: translate3d(0, -50%, 0) rotateX(-90deg);
+        }
+        .name-hover {
+          transform: translate3d(0, -100%, 0);
+        }
+      }
     }
   }
 }

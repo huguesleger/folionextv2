@@ -1,3 +1,4 @@
+import gsap from "gsap";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
@@ -15,7 +16,10 @@ const NavBar = (): JSX.Element => {
             alt="Hugues Leger"
           />
         </Link>
-        <div className="name">Hugues Leger</div>
+        <div className="wrap-name">
+          <div className="name">Hugues Leger</div>
+          <div className="name-hover">Hugues Leger</div>
+        </div>
         <div className="header-btn">
           <div className="btn-main">
             <span className="main-bar"></span>
