@@ -38,7 +38,6 @@ const Work = ({ props }: any): JSX.Element => {
       width: width,
       height: height,
       backgroundColor: 0x171717,
-      antialias: true,
       autoDensity: true,
       resolution: window.devicePixelRatio || 1,
       resizeTo: window,
@@ -112,8 +111,8 @@ const Work = ({ props }: any): JSX.Element => {
       let uniforms = {
         uPower: 0,
         uDir: 1,
-        udisplacement: PIXI.Sprite.from("../images/round-disp.jpg").texture,
-        umap: image.texture,
+        uDisp: PIXI.Sprite.from("../images/round-disp.jpg").texture,
+        uText: image.texture,
         filterMatrix: new PIXI.Matrix(),
       };
 
@@ -150,25 +149,22 @@ const Work = ({ props }: any): JSX.Element => {
       `;
 
       const fragment = `
-        uniform mat3 projectionMatrix;
-        uniform mat3 filterMatrix;
 
         varying vec2 vTextureCoord;
         varying vec2 vFilterCoord;
 
-        uniform vec4 inputSize;
-        uniform vec4 outputFrame;
         uniform float uPower;
         uniform float uDir;
 
-        uniform sampler2D udisplacement;
-        uniform sampler2D umap;
+        uniform sampler2D uSampler;
+        uniform sampler2D uDisp;
+        uniform sampler2D uText;
 
         void main(void)
         {
         vec2 uv = vFilterCoord;
-        vec4 disp = texture2D(udisplacement, uv);
-        vec4 color = texture2D(umap, vec2(uv.x, uv.y - 0.2*disp.r * uDir * uPower));
+        vec4 disp = texture2D(uDisp, uv);
+        vec4 color = texture2D(uText, vec2(uv.x, uv.y - 0.2*disp.r * uDir * uPower));
         gl_FragColor = vec4(uv,0.,1.);
         gl_FragColor = color;
         }`;
@@ -194,9 +190,7 @@ const Work = ({ props }: any): JSX.Element => {
       displacementSprite.scale.set(cover.scale, cover.scale);
 
       displacementSprite.texture.baseTexture.wrapMode = PIXI.WRAP_MODES.REPEAT;
-      displacementFilter2 = new PIXI.filters.DisplacementFilter(
-        displacementSprite
-      );
+      displacementFilter2 = new PIXI.DisplacementFilter(displacementSprite);
 
       displacementFilter2.scale.x = 60;
       displacementFilter2.scale.y = 40;
@@ -242,7 +236,7 @@ const Work = ({ props }: any): JSX.Element => {
         y: -1800,
       })
         .set(title, {
-          yPercent: 100,
+          yPercent: 110,
           rotate: 6,
         })
         .set(titleWorks, {

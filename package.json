@@ -22,7 +22,7 @@
     "math-fit": "^1.0.1",
     "next": "13.0.7",
     "node-sass": "^8.0.0",
-    "pixi.js": "^7.0.5",
+    "pixi.js": "^7.1.3",
     "react": "18.2.0",
     "react-datocms": "^4.0.7",
     "react-dom": "18.2.0",
