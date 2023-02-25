@@ -41,6 +41,7 @@ const Work = ({ props }: any): JSX.Element => {
       autoDensity: true,
       resolution: window.devicePixelRatio || 1,
       resizeTo: window,
+      clearBeforeRender: true,
     });
 
     canvas.appendChild(app.view);
