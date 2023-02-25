@@ -1,6 +1,5 @@
 import Image from "next/image";
-import React, { useEffect } from "react";
-import { useRef } from "react";
+import React, { useRef } from "react";
 import formatTxt from "../lib/functions/formatTxt";
 import gsap from "gsap";
 

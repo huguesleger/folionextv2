@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { useEffect, useRef } from "react";
+import React from "react";
 import Intro from "../components/Intro";
 import { request } from "../lib/datocms/datocms";
 import Query from "../lib/datocms/queries";
