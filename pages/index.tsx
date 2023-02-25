@@ -9,7 +9,7 @@ import dynamic from "next/dynamic";
 import Link from "next/link";
 import SplittingWrapperWord from "../components/splitting/SplittingWrapperWord";
 
-const Works = dynamic(() => import("../components/Works"), {
+const Work = dynamic(() => import("../components/Works"), {
   ssr: false,
 });
 
@@ -70,7 +70,7 @@ const Home: (props: { home: GraphQLResponse.Home }) => JSX.Element = (props: {
             <circle className="circle-line-progress" cx="50%" cy="50%" r="30" />
           </svg>
         </div>
-        <Works props={props}></Works>
+        <Work props={props}></Work>
       </div>
     </>
   );
