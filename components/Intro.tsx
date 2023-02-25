@@ -74,6 +74,7 @@ const Intro = ({
               width={90}
               height={90}
               alt="entrez"
+              priority
             />
           </div>
           <div className="inner-enter" onClick={onClick}>

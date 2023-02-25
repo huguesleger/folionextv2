@@ -8,13 +8,7 @@ const NavBar = (): JSX.Element => {
     <header className="header">
       <div className="header-content container">
         <Link className="logo" href="/">
-          <Image
-            src="/logo-hl.svg"
-            layout="intrinsic"
-            width={30}
-            height={30}
-            alt="Hugues Leger"
-          />
+          <Image src="/logo-hl.svg" width={30} height={30} alt="Hugues Leger" />
         </Link>
         <div className="wrap-name">
           <div className="name">Hugues Leger</div>
