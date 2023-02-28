@@ -36,3 +36,35 @@
     transform: translate3d(0, 0, 0);
   }
 }
+.btn-progress {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  background: none;
+  padding: 0;
+  -webkit-clip-path: circle(50% at 50% 50%);
+  clip-path: circle(50% at 50% 50%);
+  width: 65px;
+  height: 65px;
+  font-size: 0.85rem;
+  .progress {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    top: calc(50% - 25px);
+    left: calc(50% - 25px);
+    transition: transform 0.4s cubic-bezier(0.7, 0, 0.3, 1);
+    .progress-path {
+      fill: none;
+      stroke: #fff;
+      stroke-dasharray: 1;
+      stroke-dashoffset: 1;
+      transition: stroke-dashoffset 0.4s cubic-bezier(0.7, 0, 0.3, 1);
+      stroke-width: 1px;
+    }
+  }
+  &:hover .progress-path {
+    stroke-dashoffset: 0;
+  }
+}
