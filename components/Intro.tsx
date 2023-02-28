@@ -76,7 +76,7 @@ const Intro = ({
               priority
             />
           </div>
-          <div className="inner-enter" onClick={onClick}>
+          <div className="inner-enter" data-cursor onClick={onClick}>
             <span className="title-enter">{formatTxt(titleEnter)}</span>
             <span className="txt-enter">{formatTxt(textEnter)}</span>
           </div>

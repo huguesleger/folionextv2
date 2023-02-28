@@ -8,7 +8,7 @@ const Cursor = () => {
   const cursorWraper = useRef<HTMLDivElement>(null);
   const label = useRef<HTMLDivElement>(null);
   const cursorHoverElems =
-    "a, button, .btn-main, [data-cursor-label], [data-cursor-big], [data-cursor-dark]";
+    "a, button, .btn-main, [data-cursor], [data-cursor-label], [data-cursor-big], [data-cursor-dark]";
 
   let mouseIsHover = false;
   let mousepos = { x: 0, y: 0 };
