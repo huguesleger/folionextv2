@@ -5,6 +5,7 @@ import React, { useEffect, useRef, useState } from "react";
 import NavItem from "../nav/NavItem";
 
 const NavBar = (): JSX.Element => {
+  const headerContent = useRef<HTMLDivElement>(null);
   const btnMain = useRef<HTMLDivElement>(null);
   const nav = useRef<HTMLDivElement>(null);
   const [toggleBtn, setToggleBtn] = useState(false);
@@ -30,6 +31,7 @@ const NavBar = (): JSX.Element => {
     if (toggleBtn === true) {
       nav.current?.classList.add("is-open");
       btnMain.current?.classList.add("is-open");
+      headerContent.current?.classList.add("hide-el");
 
       tl.set(linkChar, {
         yPercent: 100,
@@ -57,6 +59,7 @@ const NavBar = (): JSX.Element => {
         onComplete: () => {
           nav.current?.classList.remove("is-open");
           btnMain.current?.classList.remove("is-open");
+          headerContent.current?.classList.remove("hide-el");
         },
       });
     }
@@ -65,7 +68,7 @@ const NavBar = (): JSX.Element => {
   return (
     <>
       <header className="header">
-        <div className="header-content container">
+        <div className="header-content container" ref={headerContent}>
           <Link className="logo" href="/">
             <Image src="/logo-hl.svg" width={30} height={30} alt="HL" />
           </Link>

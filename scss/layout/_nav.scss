@@ -69,10 +69,8 @@
     }
     .hover-item {
       position: absolute;
-      // top: 50%;
       top: 0;
       left: 50%;
-      // transform: translate(-50%, -50%);
       transform: translateX(-50%);
       z-index: -1;
       width: 720px;
@@ -118,7 +116,7 @@
   .inner-social {
     display: flex;
     justify-content: flex-end;
-    margin-right: -1.25rem;
+    margin-right: -0.92rem;
     .btn-social {
       color: #fff;
       transition: color 0.3s ease-in-out;
