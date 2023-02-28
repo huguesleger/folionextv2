@@ -8,6 +8,7 @@ const NavBar = (): JSX.Element => {
   const headerContent = useRef<HTMLDivElement>(null);
   const btnMain = useRef<HTMLDivElement>(null);
   const nav = useRef<HTMLDivElement>(null);
+  const social = useRef<HTMLDivElement>(null);
   const [toggleBtn, setToggleBtn] = useState(false);
 
   const handleToggleBtn = () => {
@@ -41,6 +42,9 @@ const NavBar = (): JSX.Element => {
           yPercent: 0,
           opacity: 1,
         })
+        .set(social.current, {
+          opacity: 0,
+        })
         .to(linkChar, {
           yPercent: 0,
           opacity: 1,
@@ -48,6 +52,14 @@ const NavBar = (): JSX.Element => {
           ease: "Power2.easeInOut",
           duration: tlSettings.charsDuration,
           stagger: tlSettings.staggerVal,
+          onStart: () => {
+            gsap.to(social.current, {
+              opacity: 1,
+              duration: 0.4,
+              ease: "Power2.easeInOut",
+              delay: 0.5,
+            });
+          },
         });
     } else {
       tl.to(linkWrapper, {
@@ -56,6 +68,13 @@ const NavBar = (): JSX.Element => {
         ease: "Power2.easeInOut",
         duration: tlSettings.charsDuration,
         stagger: tlSettings.staggerVal,
+        onStart: () => {
+          gsap.to(social.current, {
+            opacity: 0,
+            duration: 0.4,
+            ease: "Power2.easeInOut",
+          });
+        },
         onComplete: () => {
           nav.current?.classList.remove("is-open");
           btnMain.current?.classList.remove("is-open");
@@ -129,7 +148,7 @@ const NavBar = (): JSX.Element => {
               </ul>
             </nav>
           </div>
-          <div className="nav-social">
+          <div className="nav-social" ref={social}>
             <div className="container">
               <ul className="inner-social">
                 <li className="social-icon">
