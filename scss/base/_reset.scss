@@ -1,5 +1,10 @@
 /*! minireset.css v0.0.6 | MIT License | github.com/jgthms/minireset.css */
 html,
+body {
+  overscroll-behavior: none;
+}
+
+html,
 body,
 p,
 ol,

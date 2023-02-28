@@ -5,6 +5,7 @@
   height: 72px;
   z-index: 10;
   .header-content {
+    position: relative;
     display: flex;
     width: 100%;
     justify-content: space-between;
@@ -16,7 +17,9 @@
       display: flex;
     }
     .wrap-name {
-      position: relative;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
       .name,
       .name-hover {
         font-size: 0.8rem;
@@ -36,6 +39,13 @@
         .name-hover {
           transform: translate3d(0, -100%, 0);
         }
+      }
+    }
+    .wrap-right {
+      display: flex;
+      align-items: center;
+      .btn-theme-mode {
+        margin-right: 1rem;
       }
     }
   }

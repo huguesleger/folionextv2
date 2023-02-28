@@ -15,3 +15,18 @@
     transform: rotate(360deg);
   }
 }
+
+@keyframes MoveUpInitial {
+  to {
+    transform: translate3d(0, -105%, 0);
+  }
+}
+
+@keyframes MoveUpEnd {
+  from {
+    transform: translate3d(0, 100%, 0);
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
