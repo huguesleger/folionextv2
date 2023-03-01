@@ -429,6 +429,7 @@ const Work = ({ props }: any): JSX.Element => {
   };
 
   const mouseHover = (e: any) => {
+    const nav = document.querySelector(".nav.is-open");
     const titleActive = document.querySelector(".title-item.active .item-link");
     const char = titleActive?.querySelectorAll(".wrapper-word .char");
     const titleHoverActive = document.querySelector(
@@ -465,10 +466,12 @@ const Work = ({ props }: any): JSX.Element => {
         }
       },
     });
-    const cursor = document.querySelector(".cursor");
-    cursor?.classList.add("has-canvas");
-    const label = document.querySelector(".cursor-label-canvas");
-    label?.classList.remove("label-hidden");
+    if (!nav) {
+      const cursor = document.querySelector(".cursor");
+      cursor?.classList.add("has-canvas");
+      const label = document.querySelector(".cursor-label-canvas");
+      label?.classList.remove("label-hidden");
+    }
   };
 
   const mouseOut = (e: any) => {
