@@ -93,7 +93,10 @@ const NavBar = (): JSX.Element => {
           </Link>
           <div className="wrap-name">
             <div className="name">Hugues Leger</div>
-            <div className="name-hover">Hugues Leger</div>
+            <div className="name-hover">
+              <i className="far fa-copyright" aria-hidden></i> HL 2023. Tous
+              droit réservés
+            </div>
           </div>
           <div className="wrap-right">
             <button className="btn btn-effect btn-theme-mode">
