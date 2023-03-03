@@ -91,26 +91,32 @@ const NavBar = (): JSX.Element => {
   return (
     <>
       <header className="header">
-        <div className="header-content container" ref={headerContent}>
-          <Link className="logo" href="/">
-            <Image src="/logo-hl.svg" width={30} height={30} alt="HL" />
-          </Link>
-          <div className="wrap-name">
-            <div className="name">Hugues Leger</div>
-            <div className="name-hover">
-              <i className="far fa-copyright" aria-hidden></i> HL 2023. Tous
-              droit réservés
+        <div className="wrapper">
+          <div className="header-content container" ref={headerContent}>
+            <Link className="logo" href="/">
+              <Image src="/logo-hl.svg" width={30} height={30} alt="HL" />
+            </Link>
+            <div className="wrap-name">
+              <div className="name">Hugues Leger</div>
+              <div className="name-hover">
+                <i className="far fa-copyright" aria-hidden></i> HL 2023. Tous
+                droit réservés
+              </div>
             </div>
-          </div>
-          <div className="wrap-right">
-            <button className="btn btn-effect btn-theme-mode">
-              <span>
-                <span>mode sombre</span>
-              </span>
-            </button>
-            <div className="header-btn">
-              <div className="btn-main" ref={btnMain} onClick={handleToggleBtn}>
-                <span className="main-bar"></span>
+            <div className="wrap-right">
+              <button className="btn btn-effect btn-theme-mode">
+                <span>
+                  <span>mode sombre</span>
+                </span>
+              </button>
+              <div className="header-btn">
+                <div
+                  className="btn-main"
+                  ref={btnMain}
+                  onClick={handleToggleBtn}
+                >
+                  <span className="main-bar"></span>
+                </div>
               </div>
             </div>
           </div>

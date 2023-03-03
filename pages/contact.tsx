@@ -11,40 +11,42 @@ const Contact: (props: { contact: GraphQLResponse.Contact }) => JSX.Element =
   (props: { contact: GraphQLResponse.Contact }) => {
     return (
       <div className="page-contact">
-        <div className="container">
-          <div className="wrap-content">
-            <h1 className="title">
-              <span className="title-1">
-                <SplittingWrapperWord>
-                  {props.contact.titre}
-                </SplittingWrapperWord>
-              </span>
-              <span className="title-2">
-                <SplittingWrapperWord>
-                  {props.contact.titre2}
-                </SplittingWrapperWord>
-              </span>
-            </h1>
-            <div className="inner-email">
-              <Link
-                className="link-email"
-                href={`mailto:${props.contact.email}`}
-              >
-                <span className="arrow">
-                  <Image
-                    src="/images/link-arrow-dark.svg"
-                    layout="intrinsic"
-                    width={24}
-                    height={24}
-                    alt="arrow"
-                  />
+        <div className="wrapper">
+          <div className="container">
+            <div className="wrap-content">
+              <h1 className="title">
+                <span className="title-1">
+                  <SplittingWrapperWord>
+                    {props.contact.titre}
+                  </SplittingWrapperWord>
                 </span>
-                <span className="email" data-cursor-label="Click">
-                  {props.contact.email}
+                <span className="title-2">
+                  <SplittingWrapperWord>
+                    {props.contact.titre2}
+                  </SplittingWrapperWord>
                 </span>
-              </Link>
+              </h1>
+              <div className="inner-email">
+                <Link
+                  className="link-email"
+                  href={`mailto:${props.contact.email}`}
+                >
+                  <span className="arrow">
+                    <Image
+                      src="/images/link-arrow-dark.svg"
+                      layout="intrinsic"
+                      width={24}
+                      height={24}
+                      alt="arrow"
+                    />
+                  </span>
+                  <span className="email" data-cursor-label="Click">
+                    {props.contact.email}
+                  </span>
+                </Link>
+              </div>
+              <Footer type={"footer-dark"} />
             </div>
-            <Footer type={"footer-dark"} />
           </div>
         </div>
       </div>

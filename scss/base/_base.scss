@@ -10,11 +10,20 @@ body {
   background-color: #fff;
 }
 
+.wrapper {
+  padding-left: 4.375rem;
+  padding-right: 4.375rem;
+}
+
 .container {
-  max-width: 1300px;
   width: 100%;
   margin-left: auto;
   margin-right: auto;
   padding-left: 1rem;
   padding-right: 1rem;
+}
+
+.wrapper .container {
+  padding-left: 0;
+  padding-right: 0;
 }
