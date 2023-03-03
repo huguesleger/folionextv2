@@ -84,6 +84,10 @@ const NavBar = (): JSX.Element => {
     }
   }, [toggleBtn]);
 
+  const handleClick = () => {
+    setToggleBtn(false);
+  };
+
   return (
     <>
       <header className="header">
@@ -125,6 +129,7 @@ const NavBar = (): JSX.Element => {
                     name={"Accueil"}
                     slug={"/"}
                     image={"/images/img-2.jpg"}
+                    click={handleClick}
                   />
                 </li>
                 <li className="nav-item">
@@ -132,6 +137,7 @@ const NavBar = (): JSX.Element => {
                     name={"Projets"}
                     slug={"/projets"}
                     image={"/images/img-3.jpg"}
+                    click={handleClick}
                   />
                 </li>
                 <li className="nav-item">
@@ -139,6 +145,7 @@ const NavBar = (): JSX.Element => {
                     name={"A propos"}
                     slug={"/a-propos"}
                     image={"/images/img-4.jpg"}
+                    click={handleClick}
                   />
                 </li>
                 <li className="nav-item">
@@ -146,6 +153,7 @@ const NavBar = (): JSX.Element => {
                     name={"Contact"}
                     slug={"/contact"}
                     image={"/images/img-5.jpg"}
+                    click={handleClick}
                   />
                 </li>
               </ul>

@@ -10,9 +10,10 @@ type Item = {
   image: string;
   slug: string;
   name: string;
+  click: React.MouseEventHandler<HTMLAnchorElement> | undefined;
 };
 
-const NavItem = ({ name, image, slug }: Item): JSX.Element => {
+const NavItem = ({ name, image, slug, click }: Item): JSX.Element => {
   const router = useRouter();
 
   const navLink = useRef(null);
@@ -66,6 +67,7 @@ const NavItem = ({ name, image, slug }: Item): JSX.Element => {
       ref={navLink}
       onMouseEnter={mouseEnter}
       onMouseLeave={mouseLeave}
+      onClick={click}
       className={
         router.pathname === (slug as string) ? "nav-link is-active" : "nav-link"
       }
