@@ -1,0 +1,60 @@
+.page-contact {
+  .wrap-content {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    .title {
+      text-align: left;
+      text-transform: uppercase;
+      line-height: 1;
+      margin-top: auto;
+      .title-1,
+      .title-2 {
+        display: block;
+      }
+      .title-1 {
+        font-family: $font_gallient;
+        font-size: 5.5rem;
+      }
+      .title-2 {
+        font-size: 7.5rem;
+        font-family: $font_nunito;
+        font-weight: 600;
+      }
+    }
+    .link-email {
+      padding-top: 1rem;
+      display: flex;
+      align-items: center;
+      transform: translateX(-24px);
+      transition: transform 0.2s ease-in-out;
+      overflow: hidden;
+      .arrow {
+        display: flex;
+        width: 24px;
+        opacity: 0;
+        margin-left: 0;
+        transform: translateX(-100%);
+        transition: transform 0.2s ease-in-out, opacity 0.3s ease-in-out;
+      }
+      .email {
+        margin-left: 0;
+        transition: 0.2s ease-in-out;
+      }
+      &:hover {
+        transform: translateX(0);
+        .arrow {
+          opacity: 1;
+          transform: translateX(0);
+        }
+        .email {
+          margin-left: 10px;
+        }
+      }
+    }
+  }
+  .footer {
+    margin-top: auto;
+  }
+}

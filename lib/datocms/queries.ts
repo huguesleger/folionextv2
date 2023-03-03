@@ -42,6 +42,7 @@ query MyQuery {
     id
     _modelApiKey
     titre
+    titre2
     email
     image {
       alt

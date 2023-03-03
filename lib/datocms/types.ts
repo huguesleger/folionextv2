@@ -77,6 +77,7 @@ export namespace GraphQLResponse {
     id: string;
     _modelApiKey: string;
     titre: string;
+    titre2: string;
     email: string;
     image: Image;
   }
