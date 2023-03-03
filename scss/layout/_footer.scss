@@ -1,0 +1,21 @@
+.footer {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  .copyright {
+    font-size: 0.6875rem;
+  }
+  .inner-social {
+    display: flex;
+  }
+  &.footer-dark {
+    .btn-progress {
+      .progress {
+        .progress-path {
+          stroke: $dark_grey;
+        }
+      }
+    }
+  }
+}
