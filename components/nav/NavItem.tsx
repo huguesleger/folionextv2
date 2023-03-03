@@ -76,7 +76,6 @@ const NavItem = ({ name, image, slug, click }: Item): JSX.Element => {
       <SplittingWrapperWord>{name}</SplittingWrapperWord>
       <div className="hover-item">
         <div className="hover-inner">
-          <div className="shadow" ref={shadow}></div>
           <div
             className="hover-img"
             ref={hoverImg}

@@ -91,17 +91,6 @@
         }
       }
     }
-    .shadow {
-      position: absolute;
-      top: -135px;
-      right: 158px;
-      background-image: url("../../public/images/shadow.png");
-      background-size: cover;
-      height: 112%;
-      width: 400px;
-      transform: rotate(25deg);
-      z-index: 1;
-    }
   }
 }
 .nav .nav-items ul:hover .nav-link:not(:hover) {
