@@ -18,14 +18,11 @@ const NavItem = ({ name, image, slug, click }: Item): JSX.Element => {
 
   const navLink = useRef(null);
   const hoverImg = useRef(null);
-  const shadow = useRef(null);
   const tl = gsap.timeline();
 
   useEffect(() => {
     tl.set(hoverImg.current, {
       scale: 1.3,
-      opacity: 0,
-    }).set(shadow.current, {
       opacity: 0,
     });
   }, []);
@@ -36,13 +33,6 @@ const NavItem = ({ name, image, slug, click }: Item): JSX.Element => {
       scale: 1,
       duration: 0.5,
       ease: "Power2.easeInOut",
-      onStart: () => {
-        gsap.to(shadow.current, {
-          opacity: 0.6,
-          duration: 0.3,
-          ease: "Power2.easeInOut",
-        });
-      },
     });
   };
 
@@ -52,13 +42,6 @@ const NavItem = ({ name, image, slug, click }: Item): JSX.Element => {
       scale: 1.3,
       duration: 0.5,
       ease: "Power2.easeInOut",
-      onStart: () => {
-        gsap.to(shadow.current, {
-          opacity: 0,
-          duration: 0.3,
-          ease: "Power2.easeInOut",
-        });
-      },
     });
   };
 

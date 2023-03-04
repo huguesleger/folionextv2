@@ -23,6 +23,10 @@ const ScrollLoco = ({ children }: ScrollType): JSX.Element => {
           duration: 800,
           disableLerp: true,
         });
+        const intro = document.querySelector(".intro");
+        setTimeout(() => {
+          intro?.classList.add("is-show");
+        }, 1500);
       }}
       containerRef={containerRef}
     >

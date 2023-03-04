@@ -23,6 +23,8 @@ const NavBar = (): JSX.Element => {
       ".nav-item .nav-link .wrapper-word"
     );
 
+    const hoverImg = document.querySelectorAll(".nav-link .hover-img");
+
     const tlSettings = {
       staggerVal: 0.015,
       charsDuration: 0.7,
@@ -72,6 +74,12 @@ const NavBar = (): JSX.Element => {
           gsap.to(social.current, {
             opacity: 0,
             duration: 0.4,
+            ease: "Power2.easeInOut",
+          });
+          gsap.to(hoverImg, {
+            opacity: 0,
+            scale: 1.3,
+            duration: 0.5,
             ease: "Power2.easeInOut",
           });
         },

@@ -34,7 +34,6 @@ const Contact: (props: { contact: GraphQLResponse.Contact }) => JSX.Element =
                   <span className="arrow">
                     <Image
                       src="/images/link-arrow-dark.svg"
-                      layout="intrinsic"
                       width={24}
                       height={24}
                       alt="arrow"
