@@ -1,9 +1,10 @@
 @font-face {
-  font-family: "Gallient";
-  src: url("/fonts/Gallient.ttf") format("truetype");
+  font-family: "Gallient-Regular";
+  src: url("/fonts/Gallient-Regular.woff2") format("woff2"),
+    url("/fonts/Gallient-Regular.woff") format("woff");
 }
 
-$font_gallient: "Gallient", sans-serif;
+$font_gallient: "Gallient-Regular", sans-serif;
 $font_poppins: "Poppins", sans-serif;
 $font_nunito: "Nunito Sans", sans-serif;
 
