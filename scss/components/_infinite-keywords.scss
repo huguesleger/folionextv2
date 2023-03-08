@@ -1,0 +1,27 @@
+.infinite-keywords {
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  .keywords {
+    display: flex;
+    flex-shrink: 0;
+    min-width: 100%;
+    font-size: 8rem;
+    animation: infiniteKeyword 10s linear infinite;
+    animation-play-state: running;
+    perspective: 8000px;
+    perspective-origin: -100% 50%;
+    .wrap-keyword {
+      display: flex;
+      .separate-keyword {
+        display: flex;
+        align-items: center;
+        font-size: 2rem;
+        padding: 0 2rem;
+      }
+    }
+    .keyword-bold {
+      font-weight: 700;
+    }
+  }
+}
