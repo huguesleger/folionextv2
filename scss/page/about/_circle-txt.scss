@@ -1,0 +1,32 @@
+.section-circle-txt {
+  background-color: $dark_grey;
+  .circles {
+    width: 950px;
+    display: block;
+    margin: 0 auto;
+    .circles-text {
+      text-transform: uppercase;
+      fill: #fff;
+      transform-origin: 50% 50%;
+    }
+    .circles-text-1 {
+      font-size: 6rem;
+      font-family: $font_gallient;
+    }
+    .circles-text-2 {
+      font-size: 4rem;
+      font-family: $font_nunito;
+      font-weight: 800;
+    }
+    .circles-text-3 {
+      font-size: 3rem;
+      font-family: $font_gallient;
+      font-weight: 700;
+    }
+    .circles-text-4 {
+      font-size: 2rem;
+      font-family: $font_poppins;
+      font-weight: 100;
+    }
+  }
+}

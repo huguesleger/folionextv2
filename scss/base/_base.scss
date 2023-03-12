@@ -29,6 +29,20 @@ body {
   padding-right: 0;
 }
 
+.img-responsive {
+  width: 100%;
+  height: auto;
+}
+
+.section-title {
+  font-size: 4rem;
+  font-family: $font_gallient;
+}
+
+.font-18 {
+  font-size: 1.125rem;
+}
+
 @media (max-width: 1023px) {
   .wrapper {
     padding-left: 1rem;

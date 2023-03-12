@@ -1,0 +1,25 @@
+.section-bio {
+  .wrap-content {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 5rem;
+    .col-txt {
+      width: 50%;
+      .inner-title,
+      .inner-txt {
+        overflow: hidden;
+        padding-top: 3rem;
+      }
+      .icon-emoji {
+        font-size: 3rem;
+        margin-left: 1rem;
+      }
+    }
+    .col-img {
+      width: 30%;
+      .inner-img {
+        overflow: hidden;
+      }
+    }
+  }
+}

@@ -1,0 +1,26 @@
+.page-about {
+  .wrap-title {
+    display: flex;
+    align-items: center;
+    height: 100vh;
+    .title-about {
+      text-align: left;
+      text-transform: uppercase;
+      line-height: 1;
+      overflow: hidden;
+      .title-1,
+      .title-2 {
+        display: block;
+      }
+      .title-1 {
+        font-family: $font_gallient;
+        font-size: 5.5rem;
+      }
+      .title-2 {
+        font-size: 7.5rem;
+        font-family: $font_nunito;
+        font-weight: 600;
+      }
+    }
+  }
+}

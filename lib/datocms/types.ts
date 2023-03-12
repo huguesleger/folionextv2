@@ -25,6 +25,7 @@ export namespace GraphQLResponse {
     id: string;
     _modelApiKey: string;
     titre: string;
+    titre2: string;
     titreBio: string;
     iconBio: string;
     texteBio: StructuredText<any>;

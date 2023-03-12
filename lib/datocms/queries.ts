@@ -151,6 +151,7 @@ query MyQuery {
     _modelApiKey
     id
     titre
+    titre2
     titreBio
     iconBio
     texteBio {
