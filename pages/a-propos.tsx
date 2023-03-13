@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useLocomotiveScroll } from "react-locomotive-scroll";
 import Bio from "../components/about/Bio";
 import CircleText from "../components/about/CircleText";
+import ListCursus from "../components/about/ListCursus";
 import SplittingWrapperWord from "../components/splitting/SplittingWrapperWord";
 import { request } from "../lib/datocms/datocms";
 import Query from "../lib/datocms/queries";
@@ -71,6 +72,31 @@ const APropos: (props: { about: GraphQLResponse.About }) => JSX.Element =
                 txt3={props.about.texteCircle[2].texte}
                 txt4={props.about.texteCircle[3].texte}
               />
+            </div>
+          </div>
+        </section>
+        <section className="section-cursus" data-scroll-section>
+          <div className="wrapper">
+            <div className="container">
+              <div className="inner-title">
+                <h2 className="section-title" data-scroll data-scroll-speed="2">
+                  {props.about.titreCursus}
+                </h2>
+              </div>
+              <div className="list-cursus">
+                {props.about.listeCursus.map((el) => {
+                  return (
+                    <div className="wrap-list-item" key={el.id}>
+                      <ListCursus
+                        titre={el.titre}
+                        school={el.ecole}
+                        annee={el.annee}
+                        image={el.image.url}
+                      />
+                    </div>
+                  );
+                })}
+              </div>
             </div>
           </div>
         </section>

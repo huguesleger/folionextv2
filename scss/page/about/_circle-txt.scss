@@ -1,7 +1,7 @@
 .section-circle-txt {
   background-color: $dark_grey;
   .circles {
-    width: 950px;
+    max-width: 950px;
     display: block;
     margin: 0 auto;
     .circles-text {
