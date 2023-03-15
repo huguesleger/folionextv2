@@ -1,7 +1,11 @@
 import React, { useEffect } from "react";
+import { StructuredText } from "react-datocms";
 import { useLocomotiveScroll } from "react-locomotive-scroll";
 import Bio from "../components/about/Bio";
 import CircleText from "../components/about/CircleText";
+import CompetenceItem from "../components/about/Competences/CompetenceItem";
+import CompetenceItemList from "../components/about/Competences/CompetenceItemList";
+import CompetenceTitle from "../components/about/Competences/CompetenceTitle";
 import ListCursus from "../components/about/ListCursus";
 import SplittingWrapperWord from "../components/splitting/SplittingWrapperWord";
 import { request } from "../lib/datocms/datocms";
@@ -94,6 +98,85 @@ const APropos: (props: { about: GraphQLResponse.About }) => JSX.Element =
                         image={el.image.url}
                       />
                     </div>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+        </section>
+        <section className="section-competences" data-scroll-section>
+          <div className="infinite-keywords">
+            <h3 className="keywords">
+              {props.about.titreCompetence.map((el) => {
+                return (
+                  <CompetenceTitle title={el.titre} icon={el.icon} id={el.id} />
+                );
+              })}
+            </h3>
+            <span className="keywords">
+              {props.about.titreCompetence.map((el) => {
+                return (
+                  <CompetenceTitle title={el.titre} icon={el.icon} id={el.id} />
+                );
+              })}
+            </span>
+          </div>
+          <div className="wrapper">
+            <div className="container">
+              <div className="wrap-items">
+                {props.about.listeCompetence.map((el) => {
+                  return (
+                    <CompetenceItem
+                      title={el.titre}
+                      icon={el.icon}
+                      number={el.number}
+                      id={el.id}
+                    >
+                      <StructuredText data={el.description} />
+                    </CompetenceItem>
+                  );
+                })}
+                {props.about.listeCompetenceItems.map((el) => {
+                  return (
+                    <CompetenceItem
+                      title={el.titre}
+                      icon={el.icon}
+                      number={el.number}
+                      id={el.id}
+                    >
+                      <div className="list-items">
+                        <ul>
+                          {el.listeServiceLeft.map((item) => {
+                            return (
+                              <CompetenceItemList
+                                id={item.id}
+                                texte={item.texte}
+                              />
+                            );
+                          })}
+                        </ul>
+                        <ul>
+                          {el.listeServiceCenter.map((item) => {
+                            return (
+                              <CompetenceItemList
+                                id={item.id}
+                                texte={item.texte}
+                              />
+                            );
+                          })}
+                        </ul>
+                        <ul>
+                          {el.listeServiceRight.map((item) => {
+                            return (
+                              <CompetenceItemList
+                                id={item.id}
+                                texte={item.texte}
+                              />
+                            );
+                          })}
+                        </ul>
+                      </div>
+                    </CompetenceItem>
                   );
                 })}
               </div>
