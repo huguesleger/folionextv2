@@ -109,14 +109,22 @@ const APropos: (props: { about: GraphQLResponse.About }) => JSX.Element =
             <h3 className="keywords">
               {props.about.titreCompetence.map((el) => {
                 return (
-                  <CompetenceTitle title={el.titre} icon={el.icon} id={el.id} />
+                  <CompetenceTitle
+                    title={el.titre}
+                    icon={el.icon}
+                    key={el.id}
+                  />
                 );
               })}
             </h3>
             <span className="keywords">
               {props.about.titreCompetence.map((el) => {
                 return (
-                  <CompetenceTitle title={el.titre} icon={el.icon} id={el.id} />
+                  <CompetenceTitle
+                    title={el.titre}
+                    icon={el.icon}
+                    key={el.id}
+                  />
                 );
               })}
             </span>
@@ -127,10 +135,10 @@ const APropos: (props: { about: GraphQLResponse.About }) => JSX.Element =
                 {props.about.listeCompetence.map((el) => {
                   return (
                     <CompetenceItem
+                      key={el.id}
                       title={el.titre}
                       icon={el.icon}
                       number={el.number}
-                      id={el.id}
                     >
                       <StructuredText data={el.description} />
                     </CompetenceItem>
@@ -139,17 +147,17 @@ const APropos: (props: { about: GraphQLResponse.About }) => JSX.Element =
                 {props.about.listeCompetenceItems.map((el) => {
                   return (
                     <CompetenceItem
+                      key={el.id}
                       title={el.titre}
                       icon={el.icon}
                       number={el.number}
-                      id={el.id}
                     >
                       <div className="list-items">
                         <ul>
                           {el.listeServiceLeft.map((item) => {
                             return (
                               <CompetenceItemList
-                                id={item.id}
+                                key={item.id}
                                 texte={item.texte}
                               />
                             );
@@ -159,7 +167,7 @@ const APropos: (props: { about: GraphQLResponse.About }) => JSX.Element =
                           {el.listeServiceCenter.map((item) => {
                             return (
                               <CompetenceItemList
-                                id={item.id}
+                                key={item.id}
                                 texte={item.texte}
                               />
                             );
@@ -169,7 +177,7 @@ const APropos: (props: { about: GraphQLResponse.About }) => JSX.Element =
                           {el.listeServiceRight.map((item) => {
                             return (
                               <CompetenceItemList
-                                id={item.id}
+                                key={item.id}
                                 texte={item.texte}
                               />
                             );
