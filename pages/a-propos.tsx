@@ -8,16 +8,19 @@ import CompetenceItemList from "../components/about/Competences/CompetenceItemLi
 import CompetenceTitle from "../components/about/Competences/CompetenceTitle";
 import ListCursus from "../components/about/ListCursus";
 import SplittingWrapperWord from "../components/splitting/SplittingWrapperWord";
+import { Context } from "../context/AppContext";
 import { request } from "../lib/datocms/datocms";
 import Query from "../lib/datocms/queries";
 import { GraphQLResponse } from "../lib/datocms/types";
 
 const APropos: (props: { about: GraphQLResponse.About }) => JSX.Element =
   (props: { about: GraphQLResponse.About }) => {
+    const { setPageName } = useContext(Context);
     const { scroll } = useLocomotiveScroll();
     let scrollTarget = 0;
 
     useEffect(() => {
+      setPageName("page-about");
       const txt = document.querySelectorAll(".circles-text");
       if (scroll) {
         scroll.on("scroll", () => {

@@ -1,5 +1,5 @@
 import Image from "next/image";
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import Intro from "../components/Intro";
 import { request } from "../lib/datocms/datocms";
 import Query from "../lib/datocms/queries";
@@ -8,6 +8,7 @@ import formatTxt from "../lib/functions/formatTxt";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import SplittingWrapperWord from "../components/splitting/SplittingWrapperWord";
+import { Context } from "../context/AppContext";
 
 const Work = dynamic(() => import("../components/Works"), {
   ssr: false,
@@ -18,6 +19,11 @@ const Home: (props: { home: GraphQLResponse.Home }) => JSX.Element = (props: {
 }) => {
   // @ts-ignore
   const projets: [GraphQLResponse.Projet] = props.projets;
+  const { setPageName } = useContext(Context);
+
+  useEffect(() => {
+    setPageName("page-home");
+  }, []);
 
   return (
     <>

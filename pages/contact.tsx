@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import { request } from "../lib/datocms/datocms";
 import Query from "../lib/datocms/queries";
 import { GraphQLResponse } from "../lib/datocms/types";
@@ -6,11 +6,18 @@ import SplittingWrapperWord from "../components/splitting/SplittingWrapperWord";
 import Link from "next/link";
 import Image from "next/image";
 import Footer from "../components/layout/Footer";
+import { Context } from "../context/AppContext";
 
 const Contact: (props: { contact: GraphQLResponse.Contact }) => JSX.Element =
   (props: { contact: GraphQLResponse.Contact }) => {
+    const { setPageName } = useContext(Context);
+
+    useEffect(() => {
+      setPageName("page-contact");
+    }, []);
+
     return (
-      <div className="page-contact">
+      <>
         <div className="wrapper">
           <div className="container">
             <div className="wrap-content">
@@ -48,7 +55,7 @@ const Contact: (props: { contact: GraphQLResponse.Contact }) => JSX.Element =
             </div>
           </div>
         </div>
-      </div>
+      </>
     );
   };
 

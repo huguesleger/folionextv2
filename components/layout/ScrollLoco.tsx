@@ -1,7 +1,8 @@
-import React, { ReactNode, useRef } from "react";
+import React, { ReactNode, useContext, useRef } from "react";
 import { LocomotiveScrollProvider } from "react-locomotive-scroll";
 import "locomotive-scroll/dist/locomotive-scroll.css";
 import { useRouter } from "next/router";
+import { Context } from "../../context/AppContext";
 
 type ScrollType = {
   children: ReactNode;
@@ -10,6 +11,7 @@ type ScrollType = {
 const ScrollLoco = ({ children }: ScrollType): JSX.Element => {
   const asPath = useRouter();
   const containerRef = useRef(null);
+  const { pageName } = useContext(Context);
 
   return (
     <LocomotiveScrollProvider
@@ -18,6 +20,7 @@ const ScrollLoco = ({ children }: ScrollType): JSX.Element => {
       }}
       watch={[]}
       location={asPath}
+      onUpdate={(scroll: any) => {}}
       onLocationChange={(scroll: any) => {
         scroll.scrollTo(0, {
           duration: 800,
@@ -30,7 +33,7 @@ const ScrollLoco = ({ children }: ScrollType): JSX.Element => {
       }}
       containerRef={containerRef}
     >
-      <main data-scroll-container ref={containerRef}>
+      <main data-scroll-container ref={containerRef} className={pageName}>
         {children}
       </main>
     </LocomotiveScrollProvider>
