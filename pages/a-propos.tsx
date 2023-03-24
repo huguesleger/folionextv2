@@ -7,21 +7,37 @@ import CompetenceItem from "../components/about/Competences/CompetenceItem";
 import CompetenceItemList from "../components/about/Competences/CompetenceItemList";
 import CompetenceTitle from "../components/about/Competences/CompetenceTitle";
 import ListCursus from "../components/about/ListCursus";
+import Footer from "../components/layout/Footer";
 import SplittingWrapperWord from "../components/splitting/SplittingWrapperWord";
 import { Context } from "../context/AppContext";
 import { request } from "../lib/datocms/datocms";
 import Query from "../lib/datocms/queries";
 import { GraphQLResponse } from "../lib/datocms/types";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
+import Link from "next/link";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const APropos: (props: { about: GraphQLResponse.About }) => JSX.Element =
   (props: { about: GraphQLResponse.About }) => {
     const { setPageName } = useContext(Context);
+
+    // const wrapRounded = useRef<HTMLDivElement>(null);
+    // const rounded = useRef<HTMLDivElement>(null);
+    // const contact = useRef<HTMLDivElement>(null);
+    const refContact = useRef<HTMLDivElement>(null);
+    const refRoundedContact = useRef(null);
+    const refWrapContact = useRef<HTMLDivElement>(null);
+
     const { scroll } = useLocomotiveScroll();
     let scrollTarget = 0;
 
     useEffect(() => {
       setPageName("page-about");
+
       const txt = document.querySelectorAll(".circles-text");
+
       if (scroll) {
         scroll.on("scroll", () => {
           scrollTarget = scroll.scroll.instance.scroll.y / 10;
@@ -32,8 +48,52 @@ const APropos: (props: { about: GraphQLResponse.About }) => JSX.Element =
       }
     }, [scroll]);
 
+    useEffect(() => {
+      const windowWidth = window.innerWidth;
+      let heightRound: any;
+      if (windowWidth >= 1200) {
+        heightRound = 94;
+      } else {
+        heightRound = 35;
+      }
+      scroll?.on("scroll", ScrollTrigger.update);
+      ScrollTrigger.scrollerProxy("[data-scroll-container]", {
+        scrollTop(value) {
+          return arguments.length
+            ? scroll.scrollTo(value, { duration: 0, disableLerp: true })
+            : scroll.scroll.instance.scroll.y;
+        },
+        getBoundingClientRect() {
+          return {
+            top: 0,
+            left: 0,
+            width: window.innerWidth,
+            height: window.innerHeight,
+          };
+        },
+      });
+      if (scroll) {
+        ScrollTrigger.addEventListener("refresh", () => scroll.update());
+        ScrollTrigger.defaults({ scroller: "[data-scroll-container]" });
+        gsap.set(refRoundedContact.current, {
+          height: heightRound,
+        });
+        gsap.to(refRoundedContact.current, {
+          scrollTrigger: {
+            trigger: refWrapContact.current,
+            scrub: 0,
+            start: "0% 100%",
+            end: "100% 100%",
+          },
+          height: 0,
+          ease: "none",
+        });
+        ScrollTrigger.refresh();
+      }
+    }, [scroll]);
+
     return (
-      <div className="page-about">
+      <>
         <div className="wrapper" data-scroll-section>
           <div className="container">
             <div className="wrap-title">
@@ -90,11 +150,12 @@ const APropos: (props: { about: GraphQLResponse.About }) => JSX.Element =
                   {props.about.titreCursus}
                 </h2>
               </div>
-              <div className="list-cursus">
+              <div className="list-cursus" data-scroll data-scroll-speed="3">
                 {props.about.listeCursus.map((el) => {
                   return (
                     <div className="wrap-list-item" key={el.id}>
                       <ListCursus
+                        data-scroll
                         titre={el.titre}
                         school={el.ecole}
                         annee={el.annee}
@@ -194,7 +255,53 @@ const APropos: (props: { about: GraphQLResponse.About }) => JSX.Element =
             </div>
           </div>
         </section>
-      </div>
+        <div className="wrap-rounded" ref={refContact} data-scroll-section>
+          <div className="inner-rounded" ref={refRoundedContact}>
+            <div className="rounded"></div>
+          </div>
+        </div>
+        <div
+          className="section-contact"
+          ref={refWrapContact}
+          data-scroll-section
+          data-scroll
+        >
+          <div className="wrapper">
+            <div className="container">
+              <div className="inner-contact">
+                <div
+                  className="wrap-content"
+                  data-scroll
+                  data-scroll-speed="-4"
+                  data-scroll-position="bottom"
+                >
+                  <div className="inner-title" data-scroll>
+                    <h2
+                      className="title-contact"
+                      data-scroll
+                      data-scroll-speed="3"
+                    >
+                      {props.about.titreContact}
+                    </h2>
+                  </div>
+                  <div className="wrap-email">
+                    <Link
+                      className="email"
+                      data-cursor-label="click"
+                      href={`mailto:${props.about.emailContact}`}
+                    >
+                      {props.about.emailContact}
+                    </Link>
+                  </div>
+                </div>
+                <div className="inner-footer">
+                  <Footer />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </>
     );
   };
 

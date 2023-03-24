@@ -2,12 +2,12 @@ import Link from "next/link";
 import React from "react";
 
 type FooterType = {
-  type: string;
+  type?: string;
 };
 
 const Footer = ({ type }: FooterType): JSX.Element => {
   return (
-    <div className={`footer ${type}`}>
+    <div className={type != null ? `footer ${type}` : "footer"}>
       <div className="copyright">
         <i className="far fa-copyright" aria-hidden></i> HL 2023. Tous droit
         réservés

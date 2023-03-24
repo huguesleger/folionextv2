@@ -1,0 +1,35 @@
+.section-contact {
+  min-height: 100vh;
+  background-color: $dark_grey;
+  color: #fff;
+  .inner-contact {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    .wrap-content {
+      padding-top: 12rem;
+      overflow: hidden;
+      .inner-title {
+        overflow: hidden;
+        .title-contact {
+          font-size: 1.5rem;
+          font-weight: 300;
+          padding-top: 3rem;
+        }
+      }
+      .wrap-email {
+        overflow: hidden;
+        padding-top: 2rem;
+        .email {
+          font-family: $font_gallient;
+          font-size: 6rem;
+          line-height: 1.1;
+          text-transform: uppercase;
+        }
+      }
+    }
+    .inner-footer {
+      margin-top: auto;
+    }
+  }
+}

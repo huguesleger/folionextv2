@@ -3,6 +3,7 @@
   .wrap-items {
     gap: 6rem;
     padding-top: 5rem;
+    overflow: hidden;
   }
   .list-items {
     padding-left: 1rem;
@@ -13,6 +14,7 @@
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     .inner-item {
+      overflow: hidden;
       .number-item {
         display: block;
         color: $ultralight_grey;

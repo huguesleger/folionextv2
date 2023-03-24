@@ -14,7 +14,7 @@ const CompetenceItem = ({
   children,
 }: CompetenceItemType): JSX.Element => {
   return (
-    <div className="inner-item">
+    <div className="inner-item" data-scroll data-scroll-speed="3">
       <span className="number-item">{number}</span>
       <i className={icon} aria-hidden></i>
       <h3 className="title-item">{title}</h3>
