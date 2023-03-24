@@ -150,7 +150,7 @@ const APropos: (props: { about: GraphQLResponse.About }) => JSX.Element =
                   {props.about.titreCursus}
                 </h2>
               </div>
-              <div className="list-cursus" data-scroll>
+              <div className="list-cursus" data-scroll data-scroll-speed="3">
                 {props.about.listeCursus.map((el) => {
                   return (
                     <div className="wrap-list-item" key={el.id}>
