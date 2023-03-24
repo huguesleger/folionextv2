@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import { StructuredText } from "react-datocms";
 import { useLocomotiveScroll } from "react-locomotive-scroll";
 import Bio from "../components/about/Bio";
