@@ -551,7 +551,9 @@ const Work = ({ props }: any): JSX.Element => {
       titles.forEach((title, i) => {
         if (i === visibleImageIndex) {
           title.classList.add("active");
-          numberItem.innerHTML = visibleImageIndex + 1;
+          if (numberItem != null) {
+            numberItem.innerHTML = visibleImageIndex + 1;
+          }
         } else {
           title.classList.remove("active");
         }
