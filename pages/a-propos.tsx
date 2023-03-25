@@ -23,12 +23,8 @@ const APropos: (props: { about: GraphQLResponse.About }) => JSX.Element =
   (props: { about: GraphQLResponse.About }) => {
     const { setPageName } = useContext(Context);
 
-    // const wrapRounded = useRef<HTMLDivElement>(null);
-    // const rounded = useRef<HTMLDivElement>(null);
-    // const contact = useRef<HTMLDivElement>(null);
-    const refContact = useRef<HTMLDivElement>(null);
-    const refRoundedContact = useRef(null);
-    const refWrapContact = useRef<HTMLDivElement>(null);
+    const rounded = useRef<HTMLDivElement>(null);
+    const contact = useRef<HTMLDivElement>(null);
 
     const { scroll } = useLocomotiveScroll();
     let scrollTarget = 0;
@@ -75,12 +71,12 @@ const APropos: (props: { about: GraphQLResponse.About }) => JSX.Element =
       if (scroll) {
         ScrollTrigger.addEventListener("refresh", () => scroll.update());
         ScrollTrigger.defaults({ scroller: "[data-scroll-container]" });
-        gsap.set(refRoundedContact.current, {
+        gsap.set(rounded.current, {
           height: heightRound,
         });
-        gsap.to(refRoundedContact.current, {
+        gsap.to(rounded.current, {
           scrollTrigger: {
-            trigger: refWrapContact.current,
+            trigger: contact.current,
             scrub: 0,
             start: "0% 100%",
             end: "100% 100%",
@@ -255,14 +251,14 @@ const APropos: (props: { about: GraphQLResponse.About }) => JSX.Element =
             </div>
           </div>
         </section>
-        <div className="wrap-rounded" ref={refContact} data-scroll-section>
-          <div className="inner-rounded" ref={refRoundedContact}>
+        <div className="wrap-rounded" data-scroll-section>
+          <div className="inner-rounded" ref={rounded}>
             <div className="rounded"></div>
           </div>
         </div>
         <div
           className="section-contact"
-          ref={refWrapContact}
+          ref={contact}
           data-scroll-section
           data-scroll
         >
