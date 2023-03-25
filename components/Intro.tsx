@@ -49,7 +49,7 @@ const Intro = ({
     });
   };
   return (
-    <div className="wrapper">
+    <div className="wrapper" data-scroll-section>
       <div className="intro container" ref={intro}>
         <div className="wrap-title">
           <div className="inner-title">

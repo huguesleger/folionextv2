@@ -9,9 +9,9 @@ const ProjetPage: NextPage = (props) => {
     setPageName("page-projects");
   }, []);
   return (
-    <>
+    <div data-scroll-section>
       <h1>hello</h1>
-    </>
+    </div>
   );
 };
 

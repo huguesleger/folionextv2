@@ -18,7 +18,7 @@ const Contact: (props: { contact: GraphQLResponse.Contact }) => JSX.Element =
 
     return (
       <>
-        <div className="wrapper">
+        <div className="wrapper" data-scroll-section>
           <div className="container">
             <div className="wrap-content">
               <h1 className="title">
