@@ -49,6 +49,9 @@ const ListCanvas = ({ image, width, height }: ListCanvasType): JSX.Element => {
     let img = PIXI.Sprite.from(image);
     img.anchor.set(0.5);
 
+    img.width = width;
+    img.height = height;
+
     img.texture.orig.width = img.width;
     img.texture.orig.height = img.height;
 
@@ -67,7 +70,7 @@ const ListCanvas = ({ image, width, height }: ListCanvasType): JSX.Element => {
     containerImage.addChild(img);
     container.addChild(containerImage);
 
-    console.log(containerImage, 'imgCanvas');
+    console.log(containerImage, "imgCanvas");
   };
 
   const filter = () => {
