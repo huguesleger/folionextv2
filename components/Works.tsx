@@ -575,6 +575,7 @@ const Work = ({ props }: any): JSX.Element => {
         th.container.children[0].pivot.x = -window.innerWidth / 2;
         th.container.children[0].pivot.y = -window.innerHeight / 2;
       });
+      console.log("toto");
     });
   };
 
