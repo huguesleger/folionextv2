@@ -205,13 +205,12 @@ const Work = ({ props }: any): JSX.Element => {
       c.addChild(mask);
       c.mask = mask;
 
+      containerImage.name = "/projets/" + img.slug;
+
       containerImage.on("mouseover", mouseHover);
       containerImage.on("mouseout", mouseOut);
 
       container.addChild(containerImage);
-      // containerImage.addChild(containerText);
-
-      // console.log(container);
 
       thumbs.push({
         mask: mask,
@@ -371,10 +370,7 @@ const Work = ({ props }: any): JSX.Element => {
 
       slide.container.position.y = calcPos(scroll, slide.container.position.y);
 
-      // console.log(slide.image.parent.parent, "onpdate");
-
       if (slide.container.position.y > 0 || slide.container.position.y < 0) {
-        // console.log(slide.image.parent.parent.filters[0].scale, "onScroll");
         // slide.image.parent.parent.filters = null;
         // gsap.to(slide.image.parent.parent.filters[0].scale, {
         //   x: 0,
@@ -531,8 +527,6 @@ const Work = ({ props }: any): JSX.Element => {
       );
       const tl = gsap.timeline();
       thumbs.forEach((th, i) => {
-        // console.log(th.container.position.y, "th");
-
         const containerTop = th.container.position.y - scrollY; // Position verticale du container par rapport à la fenêtre
         const containerBottom =
           containerTop + th.image.height - margin - scroll; // Position verticale du bas du container par rapport à la fenêtre
@@ -575,7 +569,6 @@ const Work = ({ props }: any): JSX.Element => {
         th.container.children[0].pivot.x = -window.innerWidth / 2;
         th.container.children[0].pivot.y = -window.innerHeight / 2;
       });
-      console.log("toto");
     });
   };
 
