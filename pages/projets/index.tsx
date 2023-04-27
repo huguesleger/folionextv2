@@ -8,6 +8,7 @@ import SplittingWrapperWord from "../../components/splitting/SplittingWrapperWor
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import gsap from "gsap";
+import Link from "next/link";
 
 const AllWork = dynamic(() => import("../../components/Project"), {
   ssr: false,
@@ -41,16 +42,20 @@ const ProjetPage: NextPage = (props) => {
               {projets.map((el) => {
                 return (
                   <div className="inner-title" key={el.id}>
-                    <h2 className="title-project">
+                    <Link
+                      href={`/projets/${el.slug}`}
+                      className="title-project"
+                      data-cursor-dark
+                    >
                       <SplittingWrapperWord>{el.titre}</SplittingWrapperWord>
-                    </h2>
+                    </Link>
                   </div>
                 );
               })}
             </div>
-            <h2 className="subtitle-page-projects">
+            <h3 className="subtitle-page-projects">
               Développement front-end - Webdesign - Intégration web - Graphisme
-            </h2>
+            </h3>
             <div className="inner-pagination">
               <div className="pagination-number number-first">
                 0<span>1</span>

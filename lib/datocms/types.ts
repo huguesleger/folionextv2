@@ -43,21 +43,31 @@ export namespace GraphQLResponse {
   export interface Projet {
     id: string;
     slug: string;
+    colorSection: Color;
+    colorText: string;
     titre: string;
     imageSlider: Image;
     annee: string;
     titreCharte: string;
     descriptionCharte: string;
-    texteProjet: string;
-    descriptionProjet: string;
+    texteProjet: StructuredText<any>;
     intervention: string;
     siteWeb: string;
     imageCharte: ImageCharte[];
+    imageCharteBottom: ImageCharte[];
     imageFull: Image;
     imagePage: ImagePage[];
+    imageTemplateDesktopFull: Image;
     imageTemplateDesktop: Image;
+    colorSectionMobile: Color;
     imageTemplateMobile: Image;
+    imageDevice: Image;
     description: StructuredText<any>;
+    codeCouleur: CodeColor[];
+    texteSlider: StructuredText<any>;
+    imageGraphique: Image;
+    imageCard: ImageCard[];
+    texteImageCard: StructuredText<any>;
   }
 
   export interface Home {
@@ -108,12 +118,29 @@ interface ImagePage {
   id: string;
   image: Image;
 }
+interface ImageCard {
+  id: string;
+  image: Image;
+}
+
 interface Image {
   id: string;
   alt: string;
   url: string;
   width: number;
   height: number;
+}
+
+interface CodeColor {
+  id: string;
+  _modelApiKey: string;
+  titre: string;
+  colorText: string;
+  color: Color;
+}
+
+interface Color {
+  hex: string;
 }
 
 interface TexteCircle {

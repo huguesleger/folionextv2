@@ -1,0 +1,40 @@
+.project-infos {
+  &.text-dark {
+    color: $dark_grey;
+  }
+  &.text-light {
+    color: #fff;
+  }
+  .wrap-content {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    height: 100vh;
+  }
+  .wrap-title {
+    margin-top: auto;
+    .title-project {
+      font-size: 12rem;
+      font-family: $font_gallient;
+      text-transform: uppercase;
+      line-height: 1;
+    }
+  }
+  .wrap-infos {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 6rem;
+    overflow: hidden;
+    margin-top: auto;
+    padding-bottom: 2rem;
+    .inner-info {
+      .name-info {
+        font-size: 0.8125rem;
+        font-weight: 100;
+        margin-bottom: 2rem;
+        border-bottom: 1px solid #fff;
+        padding-bottom: 1rem;
+      }
+    }
+  }
+}

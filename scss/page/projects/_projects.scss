@@ -39,8 +39,10 @@
     .inner-title {
       position: relative;
       overflow: hidden;
+      display: inline-flex;
     }
     .title-project {
+      display: inline-block;
       font-family: $font_gallient;
       font-size: 5.5rem;
       line-height: 1;

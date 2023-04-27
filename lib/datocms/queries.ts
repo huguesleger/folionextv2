@@ -90,8 +90,31 @@ query MyQuery ($slug: String){
     annee
     titreCharte
     descriptionCharte
-    descriptionProjet
+    colorSection {
+      hex
+    }
+    colorText
+    codeCouleur {
+      id
+      _modelApiKey
+      titre
+      colorText
+      color {
+        hex
+      }
+    }
     imageCharte {
+      id
+      _modelApiKey
+      image {
+        alt
+        height
+        id
+        url
+        width
+      }
+    }
+    imageCharteBottom {
       id
       _modelApiKey
       image {
@@ -120,7 +143,24 @@ query MyQuery ($slug: String){
         width
       }
     }
+    colorSectionMobile {
+      hex
+    }
     imageTemplateMobile {
+      alt
+      height
+      id
+      url
+      width
+    }
+    imageDevice {
+      alt
+      height
+      id
+      url
+      width
+    }
+    imageTemplateDesktopFull {
       alt
       height
       id
@@ -139,8 +179,33 @@ query MyQuery ($slug: String){
     description {
       value
     }
-    texteProjet
-    descriptionProjet
+    texteProjet {
+      value
+    }
+    texteSlider {
+      value
+    }
+    imageGraphique {
+      alt
+      height
+      id
+      url
+      width
+    }
+    imageCard {
+      _modelApiKey
+      id
+      image {
+        alt
+        height
+        id
+        url
+        width
+      }
+    }
+    texteImageCard {
+      value
+    }
   }
 }
 `;

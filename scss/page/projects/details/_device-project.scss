@@ -1,0 +1,16 @@
+.project-device {
+  position: relative;
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 450px;
+    background-color: #fff;
+    z-index: -1;
+  }
+  .wrap-img {
+    max-width: 950px;
+    margin: 0 auto;
+  }
+}

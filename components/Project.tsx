@@ -2,11 +2,13 @@ import React, { useEffect, useRef } from "react";
 import * as PIXI from "pixi.js";
 import fit from "math-fit";
 import gsap from "gsap";
+import { useRouter } from "next/router";
 
 const CanvasWork = ({ props }: any): JSX.Element => {
   // @ts-ignore
   const projets: [GraphQLResponse.Projet] = props && props.projets;
   const refCanvas = useRef<HTMLDivElement>(null);
+  const router = useRouter();
 
   let app: any;
   let canvas: any;
@@ -99,6 +101,12 @@ const CanvasWork = ({ props }: any): JSX.Element => {
 
       containerAllSprite.filters = [displacementFilter];
 
+      spriteContainer.interactive = true;
+      spriteContainer.name = "/projets/" + img.slug;
+      spriteContainer.on("mouseover", mouseHover);
+      spriteContainer.on("mouseout", mouseOut);
+      spriteContainer.on("click", onClick);
+
       spriteContainer.addChild(sprite);
 
       containerAllSprite.addChild(spriteContainer);
@@ -124,18 +132,40 @@ const CanvasWork = ({ props }: any): JSX.Element => {
     });
   };
 
+  const mouseHover = (e: any) => {
+    const cursor = document.querySelector(".cursor");
+    cursor?.classList.add("has-canvas");
+    const label = document.querySelector(".cursor-label-canvas");
+    label?.classList.remove("label-hidden");
+  };
+
+  const mouseOut = (e: any) => {
+    const cursor = document.querySelector(".cursor");
+    cursor?.classList.remove("has-canvas");
+    const label = document.querySelector(".cursor-label-canvas");
+    label?.classList.add("label-hidden");
+  };
+
+  const onClick = (e: any) => {
+    const el = thumbs[currentIndex].children[0];
+    const path = el.name;
+    router.push(path);
+  };
+
   const moveSlideUp = (newIndex: any) => {
-    titles = document.querySelectorAll(".title-project");
+    titles = document.querySelectorAll(".content-projects .title-project");
     const currentTitle = titles[currentIndex];
     const nextTitle = titles[newIndex];
-    const currentTitleChars = currentTitle.querySelectorAll(
+    const currentTitleChars = currentTitle?.querySelectorAll(
       ".wrapper-word .char"
     );
-    const nextTitleChars = nextTitle.querySelectorAll(".wrapper-word .char");
+    const nextTitleChars = nextTitle?.querySelectorAll(".wrapper-word .char");
     const barLine = document.querySelector(".inner-pagination .bar-line");
     const numberItem: any = document.querySelector(
       ".pagination-number.number-first span"
     );
+    const cursor = document.querySelector(".cursor");
+    const label = document.querySelector(".cursor-label-canvas");
 
     const tlSettings = {
       staggerVal: 0.015,
@@ -145,6 +175,9 @@ const CanvasWork = ({ props }: any): JSX.Element => {
     const tl = gsap.timeline({
       onStart: () => {
         isAnimating = true;
+        // cursor?.classList.remove("has-canvas");
+        // label?.classList.add("label-hidden");
+        spriteContainer.off("click", onClick);
       },
       onComplete: () => {
         isAnimating = false;
@@ -157,111 +190,120 @@ const CanvasWork = ({ props }: any): JSX.Element => {
     if (tl.isActive()) {
       return;
     }
-    tl.to(
-      thumbs[currentIndex].children[0],
-      {
-        alpha: 0,
-        ease: "Power2.easeOut",
-        duration: 1.5,
-      },
-      0
-    )
-      .to(
-        thumbs[newIndex].children[0],
-        {
-          alpha: 1,
-          ease: "Power2.easeOut",
-          duration: 1,
-        },
-        1
-      )
-      .to(
-        thumbs[currentIndex].filters[0].scale,
-        {
-          x: 800,
-          y: 500,
-          ease: "Power2.easeOut",
-          duration: 1.5,
-        },
-        0
-      )
-      .fromTo(
-        thumbs[newIndex].filters[0].scale,
-        {
-          x: 800,
-          y: 500,
-        },
-        {
-          x: 0,
-          y: 0,
-          ease: "Expo.easeOut",
-          duration: 1.5,
-        },
-        0.8
-      )
-      .to(
-        currentTitle,
-        {
-          opacity: 0,
-          height: 0,
-          ease: "Power2.easeOut",
-          duration: 0.5,
-        },
-        0
-      )
-      .to(
-        nextTitle,
-        {
-          opacity: 1,
-          height: "auto",
-          ease: "Expo.easeOut",
-          duration: 0.5,
-        },
-        1
-      )
-      .to(
-        currentTitleChars,
-        {
-          yPercent: -100,
-          ease: "Power2.easeOut",
-          duration: tlSettings.charsDuration,
-          stagger: tlSettings.staggerVal,
-        },
-        0
-      )
-      .fromTo(
-        nextTitleChars,
-        {
-          yPercent: 100,
-        },
-        {
-          yPercent: 0,
-          ease: "Expo.easeOut",
-          duration: tlSettings.charsDuration,
-          stagger: tlSettings.staggerVal,
-        },
-        1
-      )
-      .to(
-        barLine,
-        {
-          scaleY: (currentIndex + 2) / projets.length,
-          duration: 0.5,
-          ease: "Expo.easeInOut",
-        },
-        0
-      );
-    if (currentIndex === projets.length - 1) {
-      currentIndex = 0;
+    if (currentTitleChars && nextTitleChars) {
       tl.to(
-        barLine,
+        thumbs[currentIndex].children[0],
         {
-          scaleY: (currentIndex + 1) / projets.length,
-          duration: 0.5,
-          ease: "Expo.easeInOut",
+          alpha: 0,
+          ease: "Power2.easeOut",
+          duration: 1.5,
         },
         0
-      );
+      )
+        .to(
+          thumbs[newIndex].children[0],
+          {
+            alpha: 1,
+            ease: "Power2.easeOut",
+            duration: 1,
+          },
+          1
+        )
+        .to(
+          thumbs[currentIndex].filters[0].scale,
+          {
+            x: 800,
+            y: 500,
+            ease: "Power2.easeOut",
+            duration: 1.5,
+          },
+          0
+        )
+        .fromTo(
+          thumbs[newIndex].filters[0].scale,
+          {
+            x: 800,
+            y: 500,
+          },
+          {
+            x: 0,
+            y: 0,
+            ease: "Expo.easeOut",
+            duration: 1.5,
+            onStart: () => {
+              // cursor?.classList.add("has-canvas");
+              // label?.classList.remove("label-hidden");
+              spriteContainer.on("click", onClick);
+            },
+          },
+          0.8
+        )
+        .to(
+          currentTitle,
+          {
+            opacity: 0,
+            height: 0,
+            ease: "Power2.easeOut",
+            duration: 0.5,
+          },
+          0
+        )
+        .to(
+          nextTitle,
+          {
+            opacity: 1,
+            height: "auto",
+            ease: "Expo.easeOut",
+            duration: 0.5,
+          },
+          1
+        )
+        .to(
+          currentTitleChars,
+          {
+            yPercent: -100,
+            ease: "Power2.easeOut",
+            duration: tlSettings.charsDuration,
+            stagger: tlSettings.staggerVal,
+          },
+          0
+        )
+        .fromTo(
+          nextTitleChars,
+          {
+            yPercent: 100,
+          },
+          {
+            yPercent: 0,
+            ease: "Expo.easeOut",
+            duration: tlSettings.charsDuration,
+            stagger: tlSettings.staggerVal,
+          },
+          1
+        )
+        .to(
+          barLine,
+          {
+            scaleY: (currentIndex + 2) / projets.length,
+            duration: 0.5,
+            ease: "Expo.easeInOut",
+          },
+          0
+        );
+    }
+    if (barLine) {
+      if (currentIndex === projets.length - 1) {
+        currentIndex = 0;
+        tl.to(
+          barLine,
+          {
+            scaleY: (currentIndex + 1) / projets.length,
+            duration: 0.5,
+            ease: "Expo.easeInOut",
+          },
+          0
+        );
+      }
     }
     if (numberItem != null) {
       numberItem.innerHTML = newIndex + 1;
@@ -269,17 +311,20 @@ const CanvasWork = ({ props }: any): JSX.Element => {
   };
 
   const moveSlideDown = (newIndex: any) => {
-    titles = document.querySelectorAll(".title-project");
+    titles = document.querySelectorAll(".content-projects .title-project");
     const currentTitle = titles[currentIndex];
     const nextTitle = titles[newIndex];
-    const currentTitleChars = currentTitle.querySelectorAll(
+    const currentTitleChars = currentTitle?.querySelectorAll(
       ".wrapper-word .char"
     );
-    const nextTitleChars = nextTitle.querySelectorAll(".wrapper-word .char");
+    const nextTitleChars = nextTitle?.querySelectorAll(".wrapper-word .char");
     const barLine = document.querySelector(".inner-pagination .bar-line");
     const numberItem: any = document.querySelector(
       ".pagination-number.number-first span"
     );
+
+    const cursor = document.querySelector(".cursor");
+    const label = document.querySelector(".cursor-label-canvas");
 
     const tlSettings = {
       staggerVal: 0.015,
@@ -289,6 +334,9 @@ const CanvasWork = ({ props }: any): JSX.Element => {
     const tl = gsap.timeline({
       onStart: () => {
         isAnimating = true;
+        // cursor?.classList.remove("has-canvas");
+        // label?.classList.add("label-hidden");
+        spriteContainer.off("click", onClick);
       },
       onComplete: () => {
         isAnimating = false;
@@ -301,111 +349,120 @@ const CanvasWork = ({ props }: any): JSX.Element => {
     if (tl.isActive()) {
       return;
     }
-    tl.to(
-      thumbs[currentIndex].children[0],
-      {
-        alpha: 0,
-        ease: "Power2.easeOut",
-        duration: 1.5,
-      },
-      0
-    )
-      .to(
-        thumbs[newIndex].children[0],
-        {
-          alpha: 1,
-          ease: "Power2.easeOut",
-          duration: 1,
-        },
-        1
-      )
-      .to(
-        thumbs[currentIndex].filters[0].scale,
-        {
-          x: 800,
-          y: 500,
-          ease: "Power2.easeOut",
-          duration: 1.5,
-        },
-        0
-      )
-      .fromTo(
-        thumbs[newIndex].filters[0].scale,
-        {
-          x: 800,
-          y: 500,
-        },
-        {
-          x: 0,
-          y: 0,
-          ease: "Expo.easeOut",
-          duration: 1.5,
-        },
-        0.8
-      )
-      .to(
-        currentTitle,
-        {
-          opacity: 0,
-          height: 0,
-          ease: "Power2.easeOut",
-          duration: 0.5,
-        },
-        0
-      )
-      .to(
-        nextTitle,
-        {
-          opacity: 1,
-          height: "auto",
-          ease: "Expo.easeOut",
-          duration: 0.5,
-        },
-        1
-      )
-      .to(
-        currentTitleChars,
-        {
-          yPercent: -100,
-          ease: "Power2.easeOut",
-          duration: tlSettings.charsDuration,
-          stagger: tlSettings.staggerVal,
-        },
-        0
-      )
-      .fromTo(
-        nextTitleChars,
-        {
-          yPercent: 100,
-        },
-        {
-          yPercent: 0,
-          ease: "Expo.easeOut",
-          duration: tlSettings.charsDuration,
-          stagger: tlSettings.staggerVal,
-        },
-        1
-      )
-      .to(
-        barLine,
-        {
-          scaleY: currentIndex / projets.length,
-          duration: 0.5,
-          ease: "Expo.easeInOut",
-        },
-        0
-      );
-    if (currentIndex === 0) {
-      currentIndex = projets.length;
+    if (currentTitleChars && nextTitleChars) {
       tl.to(
-        barLine,
+        thumbs[currentIndex].children[0],
         {
-          scaleY: currentIndex / projets.length,
-          duration: 0.5,
-          ease: "Expo.easeInOut",
+          alpha: 0,
+          ease: "Power2.easeOut",
+          duration: 1.5,
         },
         0
-      );
+      )
+        .to(
+          thumbs[newIndex].children[0],
+          {
+            alpha: 1,
+            ease: "Power2.easeOut",
+            duration: 1,
+          },
+          1
+        )
+        .to(
+          thumbs[currentIndex].filters[0].scale,
+          {
+            x: 800,
+            y: 500,
+            ease: "Power2.easeOut",
+            duration: 1.5,
+          },
+          0
+        )
+        .fromTo(
+          thumbs[newIndex].filters[0].scale,
+          {
+            x: 800,
+            y: 500,
+          },
+          {
+            x: 0,
+            y: 0,
+            ease: "Expo.easeOut",
+            duration: 1.5,
+            onStart: () => {
+              // cursor?.classList.add("has-canvas");
+              // label?.classList.remove("label-hidden");
+              spriteContainer.on("click", onClick);
+            },
+          },
+          0.8
+        )
+        .to(
+          currentTitle,
+          {
+            opacity: 0,
+            height: 0,
+            ease: "Power2.easeOut",
+            duration: 0.5,
+          },
+          0
+        )
+        .to(
+          nextTitle,
+          {
+            opacity: 1,
+            height: "auto",
+            ease: "Expo.easeOut",
+            duration: 0.5,
+          },
+          1
+        )
+        .to(
+          currentTitleChars,
+          {
+            yPercent: -100,
+            ease: "Power2.easeOut",
+            duration: tlSettings.charsDuration,
+            stagger: tlSettings.staggerVal,
+          },
+          0
+        )
+        .fromTo(
+          nextTitleChars,
+          {
+            yPercent: 100,
+          },
+          {
+            yPercent: 0,
+            ease: "Expo.easeOut",
+            duration: tlSettings.charsDuration,
+            stagger: tlSettings.staggerVal,
+          },
+          1
+        )
+        .to(
+          barLine,
+          {
+            scaleY: currentIndex / projets.length,
+            duration: 0.5,
+            ease: "Expo.easeInOut",
+          },
+          0
+        );
+    }
+    if (barLine) {
+      if (currentIndex === 0) {
+        currentIndex = projets.length;
+        tl.to(
+          barLine,
+          {
+            scaleY: currentIndex / projets.length,
+            duration: 0.5,
+            ease: "Expo.easeInOut",
+          },
+          0
+        );
+      }
     }
     if (numberItem != null) {
       numberItem.innerHTML = currentIndex;
@@ -413,7 +470,7 @@ const CanvasWork = ({ props }: any): JSX.Element => {
   };
 
   const scrollEvent = () => {
-    document.addEventListener("wheel", (e) => {
+    window.addEventListener("wheel", (e) => {
       if (isAnimating) {
         return false;
       }

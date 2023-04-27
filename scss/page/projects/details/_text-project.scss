@@ -1,0 +1,25 @@
+.project-text {
+  .wrap-desc {
+    display: flex;
+    justify-content: flex-start;
+    .inner-desc {
+      padding: 0 5rem;
+      max-width: 550px;
+      h2 {
+        font-size: 3rem;
+        font-weight: 700;
+        padding-bottom: 2rem;
+      }
+      p {
+        font-size: 1.5rem;
+        font-weight: 200;
+        margin-bottom: 1rem;
+      }
+      strong {
+        font-family: $font_gallient;
+        font-weight: 700;
+        text-transform: uppercase;
+      }
+    }
+  }
+}

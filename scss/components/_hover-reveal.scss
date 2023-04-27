@@ -1,0 +1,30 @@
+.wrap-hover-reveal {
+  position: relative;
+  width: 100%;
+  margin: 0 auto;
+  .hover-reveal {
+    position: absolute;
+    z-index: -1;
+    width: 150px;
+    height: 200px;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    transform-origin: 0% 0%;
+    opacity: 0;
+    will-change: transform;
+    .hover-reveal-inner {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      overflow: hidden;
+      .hover-reveal-img {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        background-size: cover;
+        background-position: 50% 50%;
+      }
+    }
+  }
+}

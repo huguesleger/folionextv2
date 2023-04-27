@@ -17,6 +17,7 @@
 @import "components/navbar";
 @import "components/infinite-keywords";
 @import "components/rounded-section";
+@import "components/hover-reveal";
 
 @import "page/contact";
 @import "page/error";
@@ -27,3 +28,17 @@
 @import "page/about/competences";
 @import "page/about/contact";
 @import "page/projects/projects";
+@import "page/projects/details/header";
+@import "page/projects/details/all";
+@import "page/projects/details/infos-project";
+@import "page/projects/details/desc-project";
+@import "page/projects/details/identity-project";
+@import "page/projects/details/code-color";
+@import "page/projects/details/device-project";
+@import "page/projects/details/text-project";
+@import "page/projects/details/template-desktop-project";
+@import "page/projects/details/template-desktop-full-project";
+@import "page/projects/details/slider-project";
+@import "page/projects/details/design-project";
+@import "page/projects/details/card-project";
+@import "page/projects/details/next-project";
