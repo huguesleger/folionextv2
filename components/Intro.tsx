@@ -25,6 +25,7 @@ const Intro = ({
 
   const onClick = () => {
     const works = document.querySelector(".works");
+    const cursor = document.querySelector(".cursor .cursor-wrapper");
     const tl = gsap.timeline();
 
     tl.to(intro.current, {
@@ -34,6 +35,9 @@ const Intro = ({
       duration: 1.2,
       ease: "Power2.ease",
       delay: 0.3,
+      onStart: () => {
+        cursor?.classList.remove("is-hover");
+      },
       onComplete: () => {
         if (intro.current !== null) {
           intro.current.classList.remove("is-show");

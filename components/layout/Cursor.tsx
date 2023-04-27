@@ -1,17 +1,21 @@
 import React, { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { getMousePos } from "../utils";
+import { useRouter } from "next/router";
 
 const Cursor = () => {
   const cursorCircle = useRef<HTMLDivElement>(null);
   const cursor = useRef<HTMLDivElement>(null);
   const cursorWraper = useRef<HTMLDivElement>(null);
   const label = useRef<HTMLDivElement>(null);
+  const labelCanvas = useRef<HTMLDivElement>(null);
   const cursorHoverElems =
     "a, button, .btn-main, [data-cursor], [data-cursor-label], [data-cursor-big], [data-cursor-dark]";
 
   let mouseIsHover = false;
   let mousepos = { x: 0, y: 0 };
+
+  const router = useRouter();
 
   const mouseMove = (ev: any) => {
     mousepos = getMousePos(ev);
@@ -72,14 +76,32 @@ const Cursor = () => {
         }
       });
     }
-  }, []);
+    return () => {
+      cursorWraper.current?.classList.remove("is-hover");
+      if (cursor.current?.classList.contains("has-label")) {
+        cursor.current.classList.remove("has-label");
+      }
+      if (cursor.current?.classList.contains("has-big")) {
+        cursor.current.classList.remove("has-big");
+      }
+      if (cursor.current?.classList.contains("has-dark")) {
+        cursor.current.classList.remove("has-dark");
+      }
+      if (cursor.current?.classList.contains("has-canvas")) {
+        cursor.current.classList.remove("has-canvas");
+        labelCanvas.current?.classList.add("label-hidden");
+      }
+    };
+  }, [router]);
 
   return (
     <div className="cursor" ref={cursor}>
       <div className="cursor-wrapper" ref={cursorWraper}>
         <div className="cursor-circle" id="cursor-circle" ref={cursorCircle}>
           <div className="cursor-label" ref={label}></div>
-          <div className="cursor-label-canvas label-hidden">Voir le projet</div>
+          <div className="cursor-label-canvas label-hidden" ref={labelCanvas}>
+            Voir le projet
+          </div>
           <div className="cursor-drag">
             <div className="arrow-left"></div>
             <div className="arrow-right"></div>
