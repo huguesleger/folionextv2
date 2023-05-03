@@ -117,7 +117,7 @@ const CanvasWork = ({ props }: any): JSX.Element => {
   };
 
   const initElDom = () => {
-    titles = document.querySelectorAll(".title-project");
+    titles = document.querySelectorAll(".content-projects .title-project");
     barLine = document.querySelector(".inner-pagination .bar-line");
     titles.forEach((el, i) => {
       if (i !== 0) {
@@ -150,12 +150,18 @@ const CanvasWork = ({ props }: any): JSX.Element => {
     const el = thumbs[currentIndex].children[0];
     const path = el.name;
     router.push(path);
+    // router.replace(path);
   };
 
   const moveSlideUp = (newIndex: any) => {
     titles = document.querySelectorAll(".content-projects .title-project");
     const currentTitle = titles[currentIndex];
     const nextTitle = titles[newIndex];
+    const innerTitle = document.querySelectorAll(
+      ".content-projects .inner-title"
+    );
+    const currentInnerTitle = innerTitle[currentIndex];
+    const nextInnerTitle = innerTitle[newIndex];
     const currentTitleChars = currentTitle?.querySelectorAll(
       ".wrapper-word .char"
     );
@@ -175,6 +181,10 @@ const CanvasWork = ({ props }: any): JSX.Element => {
     const tl = gsap.timeline({
       onStart: () => {
         isAnimating = true;
+        // currentInnerTitle.classList.add("is-active");
+        currentInnerTitle.classList.remove("is-active");
+        nextInnerTitle.classList.add("is-active");
+
         // cursor?.classList.remove("has-canvas");
         // label?.classList.add("label-hidden");
         spriteContainer.off("click", onClick);
@@ -182,10 +192,11 @@ const CanvasWork = ({ props }: any): JSX.Element => {
       onComplete: () => {
         isAnimating = false;
         currentIndex = newIndex;
+        console.log(currentIndex, "onComplete");
       },
     });
 
-    tl.clear();
+    // tl.clear();
 
     if (tl.isActive()) {
       return;
@@ -470,11 +481,10 @@ const CanvasWork = ({ props }: any): JSX.Element => {
   };
 
   const scrollEvent = () => {
-    window.addEventListener("wheel", (e) => {
+    document.addEventListener("wheel", (e) => {
       if (isAnimating) {
         return false;
       }
-
       if (e.deltaY > 0) {
         if (currentIndex >= 0 && currentIndex < projets.length - 1) {
           moveSlideUp(currentIndex + 1);

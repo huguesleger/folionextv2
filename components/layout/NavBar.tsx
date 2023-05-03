@@ -1,7 +1,8 @@
 import gsap from "gsap";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
+import { Context } from "../../context/AppContext";
 import NavItem from "../nav/NavItem";
 
 const NavBar = (): JSX.Element => {
@@ -10,6 +11,8 @@ const NavBar = (): JSX.Element => {
   const nav = useRef<HTMLDivElement>(null);
   const social = useRef<HTMLDivElement>(null);
   const [toggleBtn, setToggleBtn] = useState(false);
+
+  const { pageName } = useContext(Context);
 
   const handleToggleBtn = () => {
     setToggleBtn(!toggleBtn);
@@ -90,7 +93,7 @@ const NavBar = (): JSX.Element => {
         },
       });
     }
-  }, [toggleBtn]);
+  }, [toggleBtn, pageName]);
 
   const handleClick = () => {
     setToggleBtn(false);
@@ -104,13 +107,40 @@ const NavBar = (): JSX.Element => {
             <Link className="logo" href="/">
               <Image src="/logo-hl.svg" width={30} height={30} alt="HL" />
             </Link>
-            <div className="wrap-name">
-              <div className="name">Hugues Leger</div>
-              <div className="name-hover">
-                <i className="far fa-copyright" aria-hidden></i> HL 2023. Tous
-                droit réservés
+            {pageName === "page-project-detail" ? (
+              <div className="wrap-close-project">
+                <div className="icon-close">
+                  <Link className="btn-progress btn-social" href="/projets">
+                    <svg
+                      aria-hidden="true"
+                      className="progress"
+                      width="70"
+                      height="70"
+                      viewBox="0 0 70 70"
+                    >
+                      <path
+                        className="progress-path"
+                        d="m35,2.5c17.955803,0 32.5,14.544199 32.5,32.5c0,17.955803 -14.544197,32.5 -32.5,32.5c-17.955803,0 -32.5,-14.544197 -32.5,-32.5c0,-17.955801 14.544197,-32.5 32.5,-32.5z"
+                        pathLength="1"
+                      />
+                    </svg>
+                    {/* <i className="fas fa-times" aria-hidden></i> */}
+                    {/* <i className="fa-solid fa-xmark" aria-hidden></i> */}
+                    <Image
+                      src="/icon-close.svg"
+                      width={25}
+                      height={25}
+                      alt="close"
+                    />
+                  </Link>
+                </div>
               </div>
-            </div>
+            ) : (
+              <div className="wrap-name">
+                <div className="name">Hugues Leger</div>
+                <div className="name-hover">Hugues Leger</div>
+              </div>
+            )}
             <div className="wrap-right">
               <button className="btn btn-effect btn-theme-mode">
                 <span>

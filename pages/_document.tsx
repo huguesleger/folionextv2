@@ -19,8 +19,14 @@ class MyDocument extends Document {
             href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700;800&display=swap"
             rel="stylesheet"
           ></link>
-          <script
+          {/* <script
             src="https://kit.fontawesome.com/4f54ea7bd1.js"
+            crossOrigin="anonymous"
+            async
+            defer
+          ></script> */}
+          <script
+            src="https://kit.fontawesome.com/eb1ce33b69.js"
             crossOrigin="anonymous"
             async
             defer

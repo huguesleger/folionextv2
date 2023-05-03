@@ -39,9 +39,15 @@ const ProjetPage: NextPage = (props) => {
           <div className="wrap-content">
             <h1 className="title-page-projects">Réalisations</h1>
             <div className="wrap-titles">
-              {projets.map((el) => {
+              {projets.map((el, index) => {
                 return (
-                  <div className="inner-title" key={el.id}>
+                  // <div className="inner-title" key={el.id}>
+                  <div
+                    className={
+                      index === 0 ? "inner-title is-active" : "inner-title"
+                    }
+                    key={el.id}
+                  >
                     <Link
                       href={`/projets/${el.slug}`}
                       className="title-project"
