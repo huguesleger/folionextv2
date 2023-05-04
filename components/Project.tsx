@@ -146,10 +146,11 @@ const CanvasWork = ({ props }: any): JSX.Element => {
     label?.classList.add("label-hidden");
   };
 
-  const onClick = (e: any) => {
+  const onClick = async (e: any) => {
     const el = thumbs[currentIndex].children[0];
     const path = el.name;
-    router.push(path);
+    await router.push(path);
+    // router.reload();
     // router.replace(path);
   };
 
@@ -196,7 +197,7 @@ const CanvasWork = ({ props }: any): JSX.Element => {
       },
     });
 
-    // tl.clear();
+    tl.clear();
 
     if (tl.isActive()) {
       return;
@@ -480,25 +481,23 @@ const CanvasWork = ({ props }: any): JSX.Element => {
     }
   };
 
-  const scrollEvent = () => {
-    document.addEventListener("wheel", (e) => {
-      if (isAnimating) {
-        return false;
-      }
-      if (e.deltaY > 0) {
-        if (currentIndex >= 0 && currentIndex < projets.length - 1) {
-          moveSlideUp(currentIndex + 1);
-        } else {
-          moveSlideUp(0);
-        }
+  const scrollEvent = (e: any) => {
+    if (isAnimating) {
+      return false;
+    }
+    if (e.deltaY > 0) {
+      if (currentIndex >= 0 && currentIndex < projets.length - 1) {
+        moveSlideUp(currentIndex + 1);
       } else {
-        if (currentIndex > 0 && currentIndex < projets.length) {
-          moveSlideDown(currentIndex - 1);
-        } else {
-          moveSlideDown(projets.length - 1);
-        }
+        moveSlideUp(0);
       }
-    });
+    } else {
+      if (currentIndex > 0 && currentIndex < projets.length) {
+        moveSlideDown(currentIndex - 1);
+      } else {
+        moveSlideDown(projets.length - 1);
+      }
+    }
   };
 
   const resize = () => {
@@ -520,14 +519,18 @@ const CanvasWork = ({ props }: any): JSX.Element => {
     initPixi();
     add();
     initElDom();
-    scrollEvent();
+    // scrollEvent();
     resize();
     render();
-  }, []);
+  }, [scrollEvent]);
 
   return (
     <>
-      <div ref={refCanvas} className="canvas-projects"></div>
+      <div
+        ref={refCanvas}
+        onWheel={scrollEvent}
+        className="canvas-projects"
+      ></div>
     </>
   );
 };
