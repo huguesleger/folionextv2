@@ -90,8 +90,6 @@ const ProjectDetail: (props: {
     }
   }, [scroll]);
 
-  console.log(StructuredText);
-
   const getNextpost = () => {
     const index = props.projets.findIndex(
       (el) => el.slug === props.projet.slug

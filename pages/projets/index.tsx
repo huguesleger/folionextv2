@@ -22,15 +22,15 @@ const ProjetPage: NextPage = (props) => {
 
   useEffect(() => {
     setPageName("page-projects");
-    const tl = gsap.timeline();
-    tl.set(innerProjects.current, {
-      yPercent: 100,
-    }).to(innerProjects.current, {
-      yPercent: 0,
-      duration: 1.2,
-      ease: "Power2.easeOut",
-      delay: 8,
-    });
+    // const tl = gsap.timeline();
+    // tl.set(innerProjects.current, {
+    //   yPercent: 100,
+    // }).to(innerProjects.current, {
+    //   yPercent: 0,
+    //   duration: 1.2,
+    //   ease: "Power2.easeOut",
+    //   delay: 8,
+    // });
   }, []);
   return (
     <div className="content-projects" data-scroll-section>

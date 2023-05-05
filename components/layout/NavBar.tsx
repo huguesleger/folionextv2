@@ -110,7 +110,7 @@ const NavBar = (): JSX.Element => {
             {pageName === "page-project-detail" ? (
               <div className="wrap-close-project">
                 <div className="icon-close">
-                  <Link className="btn-progress btn-social" href="/projets">
+                  <Link href="/projets" className="btn-progress btn-social">
                     <svg
                       aria-hidden="true"
                       className="progress"

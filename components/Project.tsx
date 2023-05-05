@@ -1,14 +1,16 @@
-import React, { useEffect, useRef } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import * as PIXI from "pixi.js";
 import fit from "math-fit";
 import gsap from "gsap";
 import { useRouter } from "next/router";
+import { Context } from "../context/AppContext";
 
 const CanvasWork = ({ props }: any): JSX.Element => {
   // @ts-ignore
   const projets: [GraphQLResponse.Projet] = props && props.projets;
   const refCanvas = useRef<HTMLDivElement>(null);
   const router = useRouter();
+  const { setCurrentItemSlider, currentItemSlider } = useContext(Context);
 
   let app: any;
   let canvas: any;
@@ -24,7 +26,7 @@ const CanvasWork = ({ props }: any): JSX.Element => {
   let height = window.innerHeight / 2;
   let widthImage = width;
   let heightImage = height;
-  let currentIndex = 0;
+  let currentIndex = currentItemSlider;
   let isAnimating = false;
 
   const initPixi = () => {
@@ -36,7 +38,7 @@ const CanvasWork = ({ props }: any): JSX.Element => {
       autoDensity: true,
       resolution: window.devicePixelRatio || 1,
       // resizeTo: window,
-      clearBeforeRender: true,
+      // clearBeforeRender: true,
     });
 
     canvas.appendChild(app.view);
@@ -87,7 +89,7 @@ const CanvasWork = ({ props }: any): JSX.Element => {
       containerAllSprite.x = 0;
       containerAllSprite.y = 0;
 
-      if (i !== 0) {
+      if (i !== currentItemSlider) {
         gsap.set(spriteContainer, { alpha: 0 });
       }
 
@@ -119,16 +121,31 @@ const CanvasWork = ({ props }: any): JSX.Element => {
   const initElDom = () => {
     titles = document.querySelectorAll(".content-projects .title-project");
     barLine = document.querySelector(".inner-pagination .bar-line");
+    const numberItem: any = document.querySelector(
+      ".pagination-number.number-first span"
+    );
     titles.forEach((el, i) => {
-      if (i !== 0) {
+      if (i !== currentItemSlider) {
         gsap.set(el, {
           opacity: 0,
           height: 0,
         });
       }
-      gsap.set(barLine, {
-        scaleY: currentIndex + 1 / projets.length,
-      });
+      if (i === currentItemSlider) {
+        gsap.set(barLine, {
+          scaleY: (currentItemSlider + 1) / projets.length,
+        });
+        if (numberItem != null) {
+          numberItem.innerHTML = currentItemSlider + 1;
+        }
+      } else {
+        gsap.set(barLine, {
+          scaleY: (currentIndex + 1) / projets.length,
+        });
+        if (numberItem != null) {
+          numberItem.innerHTML = currentIndex + 1;
+        }
+      }
     });
   };
 
@@ -146,12 +163,11 @@ const CanvasWork = ({ props }: any): JSX.Element => {
     label?.classList.add("label-hidden");
   };
 
-  const onClick = async (e: any) => {
+  const onClick = (e: any) => {
+    setCurrentItemSlider(currentIndex);
     const el = thumbs[currentIndex].children[0];
     const path = el.name;
-    await router.push(path);
-    // router.reload();
-    // router.replace(path);
+    router.push(path);
   };
 
   const moveSlideUp = (newIndex: any) => {
@@ -171,8 +187,6 @@ const CanvasWork = ({ props }: any): JSX.Element => {
     const numberItem: any = document.querySelector(
       ".pagination-number.number-first span"
     );
-    const cursor = document.querySelector(".cursor");
-    const label = document.querySelector(".cursor-label-canvas");
 
     const tlSettings = {
       staggerVal: 0.015,
@@ -193,7 +207,6 @@ const CanvasWork = ({ props }: any): JSX.Element => {
       onComplete: () => {
         isAnimating = false;
         currentIndex = newIndex;
-        console.log(currentIndex, "onComplete");
       },
     });
 
