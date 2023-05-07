@@ -36,8 +36,6 @@ const CanvasWork = ({ props }: any): JSX.Element => {
       autoDensity: true,
       resolution: window.devicePixelRatio || 1,
       antialias: true,
-      // resizeTo: window,
-      // clearBeforeRender: true,
     });
 
     canvas.appendChild(app.view);
@@ -120,9 +118,6 @@ const CanvasWork = ({ props }: any): JSX.Element => {
   const initElDom = () => {
     titles = document.querySelectorAll(".content-projects .title-project");
     barLine = document.querySelector(".inner-pagination .bar-line");
-    const numberItem: any = document.querySelector(
-      ".pagination-number.number-first span"
-    );
     titles.forEach((el, i) => {
       if (i !== 0) {
         gsap.set(el, {
@@ -133,22 +128,6 @@ const CanvasWork = ({ props }: any): JSX.Element => {
       gsap.set(barLine, {
         scaleY: (currentIndex + 1) / projets.length,
       });
-
-      // if (i === currentItemSlider) {
-      //   gsap.set(barLine, {
-      //     scaleY: (currentItemSlider + 1) / projets.length,
-      //   });
-      //   if (numberItem != null) {
-      //     numberItem.innerHTML = currentItemSlider + 1;
-      //   }
-      // } else {
-      //   gsap.set(barLine, {
-      //     scaleY: (currentIndex + 1) / projets.length,
-      //   });
-      //   if (numberItem != null) {
-      //     numberItem.innerHTML = currentIndex + 1;
-      //   }
-      // }
     });
   };
 
@@ -198,12 +177,8 @@ const CanvasWork = ({ props }: any): JSX.Element => {
     const tl = gsap.timeline({
       onStart: () => {
         isAnimating = true;
-        // currentInnerTitle.classList.add("is-active");
         currentInnerTitle.classList.remove("is-active");
         nextInnerTitle.classList.add("is-active");
-
-        // cursor?.classList.remove("has-canvas");
-        // label?.classList.add("label-hidden");
         spriteContainer.off("click", onClick);
       },
       onComplete: () => {
@@ -258,8 +233,6 @@ const CanvasWork = ({ props }: any): JSX.Element => {
             ease: "Expo.easeOut",
             duration: 1.5,
             onStart: () => {
-              // cursor?.classList.add("has-canvas");
-              // label?.classList.remove("label-hidden");
               spriteContainer.on("click", onClick);
             },
           },
@@ -350,9 +323,6 @@ const CanvasWork = ({ props }: any): JSX.Element => {
       ".pagination-number.number-first span"
     );
 
-    const cursor = document.querySelector(".cursor");
-    const label = document.querySelector(".cursor-label-canvas");
-
     const tlSettings = {
       staggerVal: 0.015,
       charsDuration: 0.7,
@@ -361,8 +331,6 @@ const CanvasWork = ({ props }: any): JSX.Element => {
     const tl = gsap.timeline({
       onStart: () => {
         isAnimating = true;
-        // cursor?.classList.remove("has-canvas");
-        // label?.classList.add("label-hidden");
         spriteContainer.off("click", onClick);
       },
       onComplete: () => {
@@ -417,8 +385,6 @@ const CanvasWork = ({ props }: any): JSX.Element => {
             ease: "Expo.easeOut",
             duration: 1.5,
             onStart: () => {
-              // cursor?.classList.add("has-canvas");
-              // label?.classList.remove("label-hidden");
               spriteContainer.on("click", onClick);
             },
           },
@@ -533,9 +499,6 @@ const CanvasWork = ({ props }: any): JSX.Element => {
     initPixi();
     add();
     initElDom();
-    // scrollEvent();
-    // resize();
-    // window.addEventListener("resize", resize);
     render();
     return () => {
       app.destroy(true);
