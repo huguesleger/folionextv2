@@ -90,6 +90,31 @@ const ProjetPage: NextPage = (props) => {
       <div className="inner-projects" ref={innerProjects}>
         <AllWork props={props}></AllWork>
       </div>
+      {/* <div className="all-project">
+        {projets.map((el, index) => {
+          return (
+            <div className="wrap-project" key={el.id}>
+              <div className="img-wrap">
+                <div
+                  className="img-inner"
+                  style={{ backgroundImage: `url(${el.imageSlider.url})` }}
+                ></div>
+              </div>
+              <div className="project-title">
+                <h2>
+                  <SplittingWrapperWord>{el.titre}</SplittingWrapperWord>
+                </h2>
+              </div>
+              <div className="project-title-bg bg-start">
+                <span>{el.titre}</span>
+              </div>
+              <div className="project-title-bg bg-end">
+                <span>{el.titre}</span>
+              </div>
+            </div>
+          );
+        })}
+      </div> */}
     </div>
   );
 };

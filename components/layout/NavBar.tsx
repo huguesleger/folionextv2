@@ -1,6 +1,7 @@
 import gsap from "gsap";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { Context } from "../../context/AppContext";
 import NavItem from "../nav/NavItem";
@@ -13,6 +14,7 @@ const NavBar = (): JSX.Element => {
   const [toggleBtn, setToggleBtn] = useState(false);
 
   const { pageName } = useContext(Context);
+  const router = useRouter();
 
   const handleToggleBtn = () => {
     setToggleBtn(!toggleBtn);
@@ -110,7 +112,10 @@ const NavBar = (): JSX.Element => {
             {pageName === "page-project-detail" ? (
               <div className="wrap-close-project">
                 <div className="icon-close">
-                  <Link href="/projets" className="btn-progress btn-social">
+                  <button
+                    onClick={() => router.push("/projets")}
+                    className="btn-progress"
+                  >
                     <svg
                       aria-hidden="true"
                       className="progress"
@@ -132,7 +137,7 @@ const NavBar = (): JSX.Element => {
                       height={25}
                       alt="close"
                     />
-                  </Link>
+                  </button>
                 </div>
               </div>
             ) : (

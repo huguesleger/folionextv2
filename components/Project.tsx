@@ -1,16 +1,14 @@
-import React, { useContext, useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import * as PIXI from "pixi.js";
 import fit from "math-fit";
 import gsap from "gsap";
 import { useRouter } from "next/router";
-import { Context } from "../context/AppContext";
 
 const CanvasWork = ({ props }: any): JSX.Element => {
   // @ts-ignore
   const projets: [GraphQLResponse.Projet] = props && props.projets;
   const refCanvas = useRef<HTMLDivElement>(null);
   const router = useRouter();
-  const { setCurrentItemSlider, currentItemSlider } = useContext(Context);
 
   let app: any;
   let canvas: any;
@@ -26,7 +24,7 @@ const CanvasWork = ({ props }: any): JSX.Element => {
   let height = window.innerHeight / 2;
   let widthImage = width;
   let heightImage = height;
-  let currentIndex = currentItemSlider;
+  let currentIndex = 0;
   let isAnimating = false;
 
   const initPixi = () => {
@@ -37,6 +35,7 @@ const CanvasWork = ({ props }: any): JSX.Element => {
       backgroundColor: 0x171717,
       autoDensity: true,
       resolution: window.devicePixelRatio || 1,
+      antialias: true,
       // resizeTo: window,
       // clearBeforeRender: true,
     });
@@ -89,7 +88,7 @@ const CanvasWork = ({ props }: any): JSX.Element => {
       containerAllSprite.x = 0;
       containerAllSprite.y = 0;
 
-      if (i !== currentItemSlider) {
+      if (i !== 0) {
         gsap.set(spriteContainer, { alpha: 0 });
       }
 
@@ -125,27 +124,31 @@ const CanvasWork = ({ props }: any): JSX.Element => {
       ".pagination-number.number-first span"
     );
     titles.forEach((el, i) => {
-      if (i !== currentItemSlider) {
+      if (i !== 0) {
         gsap.set(el, {
           opacity: 0,
           height: 0,
         });
       }
-      if (i === currentItemSlider) {
-        gsap.set(barLine, {
-          scaleY: (currentItemSlider + 1) / projets.length,
-        });
-        if (numberItem != null) {
-          numberItem.innerHTML = currentItemSlider + 1;
-        }
-      } else {
-        gsap.set(barLine, {
-          scaleY: (currentIndex + 1) / projets.length,
-        });
-        if (numberItem != null) {
-          numberItem.innerHTML = currentIndex + 1;
-        }
-      }
+      gsap.set(barLine, {
+        scaleY: (currentIndex + 1) / projets.length,
+      });
+
+      // if (i === currentItemSlider) {
+      //   gsap.set(barLine, {
+      //     scaleY: (currentItemSlider + 1) / projets.length,
+      //   });
+      //   if (numberItem != null) {
+      //     numberItem.innerHTML = currentItemSlider + 1;
+      //   }
+      // } else {
+      //   gsap.set(barLine, {
+      //     scaleY: (currentIndex + 1) / projets.length,
+      //   });
+      //   if (numberItem != null) {
+      //     numberItem.innerHTML = currentIndex + 1;
+      //   }
+      // }
     });
   };
 
@@ -164,7 +167,6 @@ const CanvasWork = ({ props }: any): JSX.Element => {
   };
 
   const onClick = (e: any) => {
-    setCurrentItemSlider(currentIndex);
     const el = thumbs[currentIndex].children[0];
     const path = el.name;
     router.push(path);
@@ -514,10 +516,8 @@ const CanvasWork = ({ props }: any): JSX.Element => {
   };
 
   const resize = () => {
-    window.addEventListener("resize", function () {
-      app.view.style.width = window.innerWidth + "px";
-      app.view.style.height = window.innerHeight / 2 + "px";
-    });
+    app.view.style.width = window?.innerWidth + "px";
+    app.view.style.height = window?.innerHeight / 2 + "px";
   };
 
   const render = () => {
@@ -525,6 +525,7 @@ const CanvasWork = ({ props }: any): JSX.Element => {
       app.renderer.render(container);
       displacementSprite.x += 2 * delta;
       displacementSprite.y += 5;
+      window.addEventListener("resize", resize);
     });
   };
 
@@ -533,8 +534,13 @@ const CanvasWork = ({ props }: any): JSX.Element => {
     add();
     initElDom();
     // scrollEvent();
-    resize();
+    // resize();
+    // window.addEventListener("resize", resize);
     render();
+    return () => {
+      app.destroy(true);
+      window.removeEventListener("resize", resize);
+    };
   }, [scrollEvent]);
 
   return (
