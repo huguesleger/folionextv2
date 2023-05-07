@@ -18,19 +18,17 @@ const ProjetPage: NextPage = (props) => {
   const { setPageName } = useContext(Context);
   // @ts-ignore
   const projets: [GraphQLResponse.Projet] = props.projets;
-  const innerProjects = useRef(null);
+  const transitionEnter = useRef(null);
 
   useEffect(() => {
     setPageName("page-projects");
-    // const tl = gsap.timeline();
-    // tl.set(innerProjects.current, {
-    //   yPercent: 100,
-    // }).to(innerProjects.current, {
-    //   yPercent: 0,
-    //   duration: 1.2,
-    //   ease: "Power2.easeOut",
-    //   delay: 8,
-    // });
+    const tl = gsap.timeline();
+    tl.to(transitionEnter.current, {
+      "clip-path": "polygon(0 0, 100% 0, 100% 0%, 0 0%)",
+      ease: "Power2.easeOut",
+      duration: 1.25,
+      delay: 8,
+    });
   }, []);
   return (
     <div className="content-projects" data-scroll-section>
@@ -86,8 +84,9 @@ const ProjetPage: NextPage = (props) => {
           </div>
         </div>
       </div>
-      <div className="inner-projects" ref={innerProjects}>
+      <div className="inner-projects">
         <AllWork props={props}></AllWork>
+        <div className="transition-enter-canvas" ref={transitionEnter}></div>
       </div>
     </div>
   );

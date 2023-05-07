@@ -86,7 +86,7 @@ const APropos: (props: { about: GraphQLResponse.About }) => JSX.Element =
         });
         ScrollTrigger.refresh();
       }
-    }, [scroll]);
+    }, [scroll, rounded.current]);
 
     return (
       <>

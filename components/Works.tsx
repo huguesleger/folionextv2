@@ -21,10 +21,7 @@ const Work = ({ props }: any): JSX.Element => {
   let scrollTarget = 0;
   let scroll = 0;
   let currentScroll = 0;
-  // let margin = 950;
   let margin = 300;
-  // let wholeHeight = margin * projets.length;
-  // let wholeHeightSlide = margin;
   let aspect = 0.66;
   let imageWidth = 500;
   let imageHeight = imageWidth / aspect;
@@ -41,15 +38,12 @@ const Work = ({ props }: any): JSX.Element => {
       autoDensity: true,
       resolution: window.devicePixelRatio || 1,
       resizeTo: window,
-      clearBeforeRender: true,
+      // clearBeforeRender: true,
     });
 
     canvas.appendChild(app.view);
 
     container = new PIXI.Container();
-    // container.rotation = -0.1;
-
-    // container.pivot.y = -margin;
     app.stage.addChild(container);
   };
 
@@ -62,29 +56,12 @@ const Work = ({ props }: any): JSX.Element => {
     };
 
     projets.forEach((img, i) => {
-      // i = i + 1;
       let c = new PIXI.Container();
       let containerImage = new PIXI.Container();
-      // let containerText = new PIXI.Container();
       c.pivot.x = -width / 2;
       c.pivot.y = -height / 2 - 16;
 
       containerImage.y = (margin + imageHeight) * i - imageHeight / margin;
-
-      // const text = new Text(img.titre.toUpperCase(), {
-      //   fontFamily: "Nunito Sans",
-      //   fontSize: 80,
-      //   fill: 0xffffff,
-      //   wordWrap: true,
-      //   wordWrapWidth: 500,
-      //   lineHeight: 80,
-      //   fontWeight: "700",
-      // });
-
-      // containerText.addChild(text);
-
-      // containerText.pivot.x = -width / 2 + containerText.width / 2;
-      // containerText.pivot.y = -height / 2 + 50;
 
       let image = PIXI.Sprite.from(img.imageSlider.url);
       image.anchor.set(0.5);
@@ -363,34 +340,7 @@ const Work = ({ props }: any): JSX.Element => {
       slide.mask.quadraticCurveTo(control[2].x, control[2].y, p[3].x, p[3].y);
       slide.mask.quadraticCurveTo(control[3].x, control[3].y, p[0].x, p[0].y);
 
-      // slide.container.position.y =
-      //   ((slide.position * margin + currentScroll + 1000 * wholeHeight) %
-      //     wholeHeight) -
-      //   margin;
-
       slide.container.position.y = calcPos(scroll, slide.container.position.y);
-
-      if (slide.container.position.y > 0 || slide.container.position.y < 0) {
-        // slide.image.parent.parent.filters = null;
-        // gsap.to(slide.image.parent.parent.filters[0].scale, {
-        //   x: 0,
-        //   y: 0,
-        //   duration: 0.1,
-        // });
-        // const title = document.querySelectorAll(".wrap-project-name");
-        // const wrapTitle = document.querySelector(".title-list");
-        // const tl = gsap.timeline();
-        // tl.fromTo(
-        //   wrapTitle,
-        //   {
-        //     yPercent: 0,
-        //   },
-        //   {
-        //     yPercent: -(100 - 100 / title.length),
-        //     duration: 1,
-        //   }
-        // );
-      }
     });
   };
 
@@ -517,28 +467,28 @@ const Work = ({ props }: any): JSX.Element => {
     window.addEventListener("wheel", (e) => {
       scrollTarget = e.deltaY / 3;
 
-      const scrollY = window.scrollY; // Position verticale de la fenêtre
-      const windowHeight = window.innerHeight; // Hauteur de la fenêtre
-      const sliderHeight = wholeHeight; // Hauteur du slider
+      const scrollY = window.scrollY;
+      const windowHeight = window.innerHeight;
+
       let visibleImageIndex = -1;
 
       const progressCircleLine: any = document.querySelector(
         ".circle-line-progress"
       );
-      const tl = gsap.timeline();
+
       thumbs.forEach((th, i) => {
-        const containerTop = th.container.position.y - scrollY; // Position verticale du container par rapport à la fenêtre
+        const containerTop = th.container.position.y - scrollY;
         const containerBottom =
-          containerTop + th.image.height - margin - scroll; // Position verticale du bas du container par rapport à la fenêtre
+          containerTop + th.image.height - margin - scroll;
 
         if (containerTop < windowHeight && containerBottom > 0) {
-          // L'image est partiellement ou entièrement visible dans la fenêtre
           visibleImageIndex = i;
         }
         if (i === 5 && th.container.y < 0 && th.container.y < -margin) {
           visibleImageIndex = 0;
         }
       });
+
       const titles = document.querySelectorAll(".title-item");
       const numberItem: any = document.querySelector(".number-item span");
 
@@ -578,12 +528,7 @@ const Work = ({ props }: any): JSX.Element => {
       updateAllTheThings();
       scroll -= (scroll - scrollTarget) * 0.1;
       scrollTarget *= 0.9;
-      // let direction = Math.sign(scroll);
       currentScroll += scroll;
-
-      // thumbs.forEach((th) => {
-      //   th.container.position.y = calcPos(scroll, th.container.position.y);
-      // });
     });
   };
 
@@ -594,6 +539,9 @@ const Work = ({ props }: any): JSX.Element => {
     resize();
     filterAnim();
     render();
+    return () => {
+      app.destroy(true);
+    };
   }, []);
 
   return <div ref={refCanvas} className="canvas-works"></div>;

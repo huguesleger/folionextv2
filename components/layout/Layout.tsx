@@ -10,7 +10,7 @@ export default function Layout({ children }: Props) {
   return (
     <>
       <div id="app" className="app">
-        <Loader />
+        {/* <Loader /> */}
         <NavBar />
         {children}
       </div>

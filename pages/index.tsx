@@ -9,6 +9,7 @@ import dynamic from "next/dynamic";
 import Link from "next/link";
 import SplittingWrapperWord from "../components/splitting/SplittingWrapperWord";
 import { Context } from "../context/AppContext";
+import Loader from "../components/Loader";
 
 const Work = dynamic(() => import("../components/Works"), {
   ssr: false,
@@ -27,6 +28,7 @@ const Home: (props: { home: GraphQLResponse.Home }) => JSX.Element = (props: {
 
   return (
     <>
+      <Loader />
       <Intro
         title={props.home.titre}
         image={props.home.image}
