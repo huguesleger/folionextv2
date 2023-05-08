@@ -12,6 +12,7 @@ const Loader = () => {
 
     if (localStorage.getItem("preloader") == date.toString()) {
       loader.current?.remove();
+      intro?.classList.add("is-show");
     }
 
     if (localStorage.getItem("preloader") != date.toString()) {

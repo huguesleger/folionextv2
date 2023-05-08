@@ -12,7 +12,7 @@ const Work = ({ props }: any): JSX.Element => {
   const projets: [GraphQLResponse.Projet] = props && props.projets;
   const refCanvas = useRef<HTMLDivElement>(null);
   const router = useRouter();
-  const { pageName, setPreviousPage, previousPage } = useContext(Context);
+  const { setPreviousPage, previousPage } = useContext(Context);
 
   let app: any;
   let canvas: any;
@@ -33,8 +33,6 @@ const Work = ({ props }: any): JSX.Element => {
   let wholeHeight = projets.length * (imageHeight + margin);
   let currentProgress = 189;
   let progress = 189 / projets.length - 1;
-  let isAnimating = false;
-  let currentIndex = 0;
 
   const initPixi = () => {
     canvas = refCanvas.current;
@@ -280,43 +278,59 @@ const Work = ({ props }: any): JSX.Element => {
 
       if (previousPage === "page-home") {
         containerImage.interactive = true;
-        tl.to(image.transform.pivot, {
+        // tl.to(image.transform.pivot, {
+        //   y: 0,
+        //   duration: 0.8,
+        //   ease: CustomEase.create(
+        //     "custom",
+        //     "M0,0 C0.126,0.382 0.112,0.752 0.392,0.892 0.466,0.929 0.818,1.001 1,1 "
+        //   ),
+        //   delay: 3,
+        //   onStart: () => {
+        //     gsap.to(titleWorks, {
+        //       xPercent: 0,
+        //       duration: 0.5,
+        //       ease: "Power2.ease",
+        //       delay: 0.5,
+        //     });
+        //   },
+        //   onComplete: () => {
+        //     gsap.to(title, {
+        //       yPercent: 0,
+        //       rotate: 0,
+        //       duration: 0.5,
+        //       ease: "Power2.ease",
+        //     });
+        //     gsap.to(innerItems, {
+        //       xPercent: 0,
+        //       duration: 0.5,
+        //       ease: "Power2.easeInOut",
+        //       delay: 0.5,
+        //     });
+        //     gsap.to(progressWork, {
+        //       opacity: 1,
+        //       duration: 0.5,
+        //       ease: "Power2.easeInOut",
+        //       delay: -0.5,
+        //     });
+        //   },
+        // });
+        tl.set(image.transform.pivot, {
           y: 0,
-          duration: 0.8,
-          ease: CustomEase.create(
-            "custom",
-            "M0,0 C0.126,0.382 0.112,0.752 0.392,0.892 0.466,0.929 0.818,1.001 1,1 "
-          ),
-          delay: 3,
-          onStart: () => {
-            gsap.to(titleWorks, {
-              xPercent: 0,
-              duration: 0.5,
-              ease: "Power2.ease",
-              delay: 0.5,
-            });
-          },
-          onComplete: () => {
-            gsap.to(title, {
-              yPercent: 0,
-              rotate: 0,
-              duration: 0.5,
-              ease: "Power2.ease",
-            });
-            gsap.to(innerItems, {
-              xPercent: 0,
-              duration: 0.5,
-              ease: "Power2.easeInOut",
-              delay: 0.5,
-            });
-            gsap.to(progressWork, {
-              opacity: 1,
-              duration: 0.5,
-              ease: "Power2.easeInOut",
-              delay: -0.5,
-            });
-          },
-        });
+        })
+          .set(title, {
+            yPercent: 0,
+            rotate: 0,
+          })
+          .set(titleWorks, {
+            xPercent: 0,
+          })
+          .set(innerItems, {
+            xPercent: 0,
+          })
+          .set(progressWork, {
+            opacity: 1,
+          });
       }
     });
   };

@@ -9,7 +9,6 @@ import dynamic from "next/dynamic";
 import Link from "next/link";
 import SplittingWrapperWord from "../components/splitting/SplittingWrapperWord";
 import { Context } from "../context/AppContext";
-import Loader from "../components/Loader";
 import gsap from "gsap";
 
 const Work = dynamic(() => import("../components/Works"), {
@@ -32,11 +31,11 @@ const Home: (props: { home: GraphQLResponse.Home }) => JSX.Element = (props: {
     const works = document.querySelector(".works");
     const tl = gsap.timeline();
     if (previousPage === "page-home") {
-      tl.to(intro, {
+      tl.set(intro, {
         yPercent: -150,
         rotate: -8,
         opacity: 0,
-      }).to(works, {
+      }).set(works, {
         opacity: 1,
         visibility: "visible",
       });
@@ -45,7 +44,6 @@ const Home: (props: { home: GraphQLResponse.Home }) => JSX.Element = (props: {
 
   return (
     <>
-      <Loader />
       <Intro
         title={props.home.titre}
         image={props.home.image}
