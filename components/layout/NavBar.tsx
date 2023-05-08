@@ -13,7 +13,7 @@ const NavBar = (): JSX.Element => {
   const social = useRef<HTMLDivElement>(null);
   const [toggleBtn, setToggleBtn] = useState(false);
 
-  const { pageName } = useContext(Context);
+  const { pageName, previousPage } = useContext(Context);
   const router = useRouter();
 
   const handleToggleBtn = () => {
@@ -95,7 +95,24 @@ const NavBar = (): JSX.Element => {
         },
       });
     }
+    return () => {
+      headerContent;
+      btnMain;
+      nav;
+      social;
+      toggleBtn;
+      linkWrapper;
+      linkChar;
+    };
   }, [toggleBtn, pageName]);
+
+  const onClick = () => {
+    if (previousPage === "page-home") {
+      router.push("/");
+    } else {
+      router.push("/projets");
+    }
+  };
 
   const handleClick = () => {
     setToggleBtn(false);
@@ -112,10 +129,7 @@ const NavBar = (): JSX.Element => {
             {pageName === "page-project-detail" ? (
               <div className="wrap-close-project">
                 <div className="icon-close">
-                  <button
-                    onClick={() => router.push("/projets")}
-                    className="btn-progress"
-                  >
+                  <button onClick={onClick} className="btn-progress">
                     <svg
                       aria-hidden="true"
                       className="progress"
@@ -129,8 +143,6 @@ const NavBar = (): JSX.Element => {
                         pathLength="1"
                       />
                     </svg>
-                    {/* <i className="fas fa-times" aria-hidden></i> */}
-                    {/* <i className="fa-solid fa-xmark" aria-hidden></i> */}
                     <Image
                       src="/icon-close.svg"
                       width={25}

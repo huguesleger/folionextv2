@@ -8,14 +8,21 @@ import { useState } from "react";
 
 export default function App({ Component, pageProps }: AppProps) {
   const [pageName, setPageName] = useState("");
+  const [previousPage, setPreviousPage] = useState("");
 
   const handlePageName = (value: string) => {
     setPageName(value);
   };
 
+  const handlePreviousPage = (value: string) => {
+    setPreviousPage(value);
+  };
+
   const appValue = {
     pageName,
+    previousPage,
     setPageName: handlePageName,
+    setPreviousPage: handlePreviousPage,
   };
 
   return (

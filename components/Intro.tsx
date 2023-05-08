@@ -52,6 +52,7 @@ const Intro = ({
       },
     });
   };
+
   return (
     <div className="wrapper" data-scroll-section>
       <div className="intro container" ref={intro}>

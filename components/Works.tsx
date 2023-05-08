@@ -1,20 +1,25 @@
-import React, { useEffect, useRef } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import * as PIXI from "pixi.js";
 import fit from "math-fit";
 import gsap from "gsap";
 import { CustomEase } from "gsap/dist/CustomEase";
+import { useRouter } from "next/router";
+import { Context } from "../context/AppContext";
 gsap.registerPlugin(CustomEase);
 
 const Work = ({ props }: any): JSX.Element => {
   // @ts-ignore
   const projets: [GraphQLResponse.Projet] = props && props.projets;
   const refCanvas = useRef<HTMLDivElement>(null);
+  const router = useRouter();
+  const { pageName, setPreviousPage, previousPage } = useContext(Context);
 
   let app: any;
   let canvas: any;
   let container: any;
   let thumbs: any[];
   let displacementFilter2: any;
+  let visibleImageIndex: any;
 
   let width = window.innerWidth;
   let height = window.innerHeight;
@@ -28,6 +33,8 @@ const Work = ({ props }: any): JSX.Element => {
   let wholeHeight = projets.length * (imageHeight + margin);
   let currentProgress = 189;
   let progress = 189 / projets.length - 1;
+  let isAnimating = false;
+  let currentIndex = 0;
 
   const initPixi = () => {
     canvas = refCanvas.current;
@@ -173,7 +180,7 @@ const Work = ({ props }: any): JSX.Element => {
       displacementFilter2.scale.x = 60;
       displacementFilter2.scale.y = 40;
 
-      if (i === 0) {
+      if (i === 0 && previousPage != "page-home") {
         containerImage.filters = [displacementFilter2];
       }
 
@@ -186,6 +193,7 @@ const Work = ({ props }: any): JSX.Element => {
 
       containerImage.on("mouseover", mouseHover);
       containerImage.on("mouseout", mouseOut);
+      containerImage.on("click", onClick);
 
       container.addChild(containerImage);
 
@@ -213,7 +221,7 @@ const Work = ({ props }: any): JSX.Element => {
         y: -1800,
       })
         .set(title, {
-          yPercent: 110,
+          yPercent: 115,
           rotate: 6,
         })
         .set(titleWorks, {
@@ -269,6 +277,47 @@ const Work = ({ props }: any): JSX.Element => {
           },
         });
       });
+
+      if (previousPage === "page-home") {
+        containerImage.interactive = true;
+        tl.to(image.transform.pivot, {
+          y: 0,
+          duration: 0.8,
+          ease: CustomEase.create(
+            "custom",
+            "M0,0 C0.126,0.382 0.112,0.752 0.392,0.892 0.466,0.929 0.818,1.001 1,1 "
+          ),
+          delay: 3,
+          onStart: () => {
+            gsap.to(titleWorks, {
+              xPercent: 0,
+              duration: 0.5,
+              ease: "Power2.ease",
+              delay: 0.5,
+            });
+          },
+          onComplete: () => {
+            gsap.to(title, {
+              yPercent: 0,
+              rotate: 0,
+              duration: 0.5,
+              ease: "Power2.ease",
+            });
+            gsap.to(innerItems, {
+              xPercent: 0,
+              duration: 0.5,
+              ease: "Power2.easeInOut",
+              delay: 0.5,
+            });
+            gsap.to(progressWork, {
+              opacity: 1,
+              duration: 0.5,
+              ease: "Power2.easeInOut",
+              delay: -0.5,
+            });
+          },
+        });
+      }
     });
   };
 
@@ -463,62 +512,68 @@ const Work = ({ props }: any): JSX.Element => {
     label?.classList.add("label-hidden");
   };
 
-  const scrollEvent = () => {
-    window.addEventListener("wheel", (e) => {
-      scrollTarget = e.deltaY / 3;
+  const onClick = (e: any) => {
+    const el = e.target;
+    const path = el.name;
+    router.push(path);
+    setPreviousPage("page-home");
+  };
 
-      const scrollY = window.scrollY;
-      const windowHeight = window.innerHeight;
+  const scrollEvent = (e: any) => {
+    scrollTarget = e.deltaY / 3;
 
-      let visibleImageIndex = -1;
+    const scrollY = window.scrollY;
+    const windowHeight = window.innerHeight;
 
-      const progressCircleLine: any = document.querySelector(
-        ".circle-line-progress"
-      );
+    visibleImageIndex = -1;
 
-      thumbs.forEach((th, i) => {
-        const containerTop = th.container.position.y - scrollY;
-        const containerBottom =
-          containerTop + th.image.height - margin - scroll;
+    const progressCircleLine: any = document.querySelector(
+      ".circle-line-progress"
+    );
 
-        if (containerTop < windowHeight && containerBottom > 0) {
-          visibleImageIndex = i;
-        }
-        if (i === 5 && th.container.y < 0 && th.container.y < -margin) {
-          visibleImageIndex = 0;
-        }
-      });
+    thumbs.forEach((th, i) => {
+      const containerTop = th.container.position.y - scrollY;
+      const containerBottom = containerTop + th.image.height - margin - scroll;
 
-      const titles = document.querySelectorAll(".title-item");
-      const numberItem: any = document.querySelector(".number-item span");
-
-      titles.forEach((title, i) => {
-        if (i === visibleImageIndex) {
-          title.classList.add("active");
-          if (numberItem != null) {
-            numberItem.innerHTML = visibleImageIndex + 1;
-          }
-        } else {
-          title.classList.remove("active");
-        }
-      });
-
-      if (progressCircleLine) {
-        progressCircleLine.style.strokeDashoffset =
-          currentProgress + currentScroll / progress + "px";
+      if (containerTop < windowHeight && containerBottom > 0) {
+        visibleImageIndex = i;
+      }
+      if (
+        i === projets.length &&
+        th.container.y < 0 &&
+        th.container.y < -margin
+      ) {
+        visibleImageIndex = 0;
       }
     });
+
+    const titles = document.querySelectorAll(".title-item");
+    const numberItem: any = document.querySelector(".number-item span");
+
+    titles.forEach((title, i) => {
+      if (i === visibleImageIndex) {
+        title.classList.add("active");
+        if (numberItem != null) {
+          numberItem.innerHTML = visibleImageIndex + 1;
+        }
+      } else {
+        title.classList.remove("active");
+      }
+    });
+
+    if (progressCircleLine) {
+      progressCircleLine.style.strokeDashoffset =
+        currentProgress + currentScroll / progress + "px";
+    }
   };
 
   const resize = () => {
-    window.addEventListener("resize", function () {
-      app.view.style.width = innerWidth + "px";
-      app.view.style.height = innerHeight + "px";
+    app.view.style.width = window?.innerWidth + "px";
+    app.view.style.height = window?.innerHeight + "px";
 
-      thumbs.forEach((th) => {
-        th.container.children[0].pivot.x = -window.innerWidth / 2;
-        th.container.children[0].pivot.y = -window.innerHeight / 2;
-      });
+    thumbs.forEach((th) => {
+      th.container.children[0].pivot.x = -window.innerWidth / 2;
+      th.container.children[0].pivot.y = -window.innerHeight / 2;
     });
   };
 
@@ -529,22 +584,25 @@ const Work = ({ props }: any): JSX.Element => {
       scroll -= (scroll - scrollTarget) * 0.1;
       scrollTarget *= 0.9;
       currentScroll += scroll;
+      window.addEventListener("resize", resize);
     });
   };
 
   useEffect(() => {
     initPixi();
     add();
-    scrollEvent();
-    resize();
     filterAnim();
     render();
     return () => {
+      previousPage;
       app.destroy(true);
+      window.removeEventListener("resize", resize);
     };
-  }, []);
+  }, [scrollEvent]);
 
-  return <div ref={refCanvas} className="canvas-works"></div>;
+  return (
+    <div ref={refCanvas} onWheel={scrollEvent} className="canvas-works"></div>
+  );
 };
 
 export default Work;

@@ -10,6 +10,7 @@ import Link from "next/link";
 import SplittingWrapperWord from "../components/splitting/SplittingWrapperWord";
 import { Context } from "../context/AppContext";
 import Loader from "../components/Loader";
+import gsap from "gsap";
 
 const Work = dynamic(() => import("../components/Works"), {
   ssr: false,
@@ -20,10 +21,26 @@ const Home: (props: { home: GraphQLResponse.Home }) => JSX.Element = (props: {
 }) => {
   // @ts-ignore
   const projets: [GraphQLResponse.Projet] = props.projets;
-  const { setPageName } = useContext(Context);
+  const { setPageName, previousPage } = useContext(Context);
 
   useEffect(() => {
     setPageName("page-home");
+  }, []);
+
+  useEffect(() => {
+    const intro = document.querySelector(".intro");
+    const works = document.querySelector(".works");
+    const tl = gsap.timeline();
+    if (previousPage === "page-home") {
+      tl.to(intro, {
+        yPercent: -150,
+        rotate: -8,
+        opacity: 0,
+      }).to(works, {
+        opacity: 1,
+        visibility: "visible",
+      });
+    }
   }, []);
 
   return (

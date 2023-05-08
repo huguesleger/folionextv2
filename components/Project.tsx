@@ -1,14 +1,16 @@
-import React, { useEffect, useRef } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import * as PIXI from "pixi.js";
 import fit from "math-fit";
 import gsap from "gsap";
 import { useRouter } from "next/router";
+import { Context } from "../context/AppContext";
 
 const CanvasWork = ({ props }: any): JSX.Element => {
   // @ts-ignore
   const projets: [GraphQLResponse.Projet] = props && props.projets;
   const refCanvas = useRef<HTMLDivElement>(null);
   const router = useRouter();
+  const { pageName, setPreviousPage, previousPage } = useContext(Context);
 
   let app: any;
   let canvas: any;
@@ -36,6 +38,7 @@ const CanvasWork = ({ props }: any): JSX.Element => {
       autoDensity: true,
       resolution: window.devicePixelRatio || 1,
       antialias: true,
+      clearBeforeRender: true,
     });
 
     canvas.appendChild(app.view);
@@ -504,6 +507,7 @@ const CanvasWork = ({ props }: any): JSX.Element => {
     initElDom();
     render();
     return () => {
+      currentIndex = 0;
       app.destroy(true);
       window.removeEventListener("resize", resize);
     };
