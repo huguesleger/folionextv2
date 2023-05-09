@@ -5,6 +5,8 @@ import ScrollLoco from "../components/layout/ScrollLoco";
 import Cursor from "../components/layout/Cursor";
 import { Context } from "../context/AppContext";
 import { useState } from "react";
+import SharedLayoutData from "../context/MotionContext";
+import { AnimatePresence } from "framer-motion";
 
 export default function App({ Component, pageProps }: AppProps) {
   const [pageName, setPageName] = useState("");
@@ -29,11 +31,15 @@ export default function App({ Component, pageProps }: AppProps) {
     <>
       <Context.Provider value={appValue}>
         <Cursor />
-        <Layout>
-          <ScrollLoco>
-            <Component {...pageProps} />
-          </ScrollLoco>
-        </Layout>
+        <SharedLayoutData>
+          <Layout>
+            <AnimatePresence initial={false} mode="wait">
+              <ScrollLoco>
+                <Component {...pageProps} />
+              </ScrollLoco>
+            </AnimatePresence>
+          </Layout>
+        </SharedLayoutData>
       </Context.Provider>
     </>
   );

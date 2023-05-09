@@ -5,6 +5,8 @@ import gsap from "gsap";
 import { CustomEase } from "gsap/dist/CustomEase";
 import { useRouter } from "next/router";
 import { Context } from "../context/AppContext";
+import { SharedLayoutDataContext } from "../context/MotionContext";
+
 gsap.registerPlugin(CustomEase);
 
 const Work = ({ props }: any): JSX.Element => {
@@ -13,6 +15,7 @@ const Work = ({ props }: any): JSX.Element => {
   const refCanvas = useRef<HTMLDivElement>(null);
   const router = useRouter();
   const { setPreviousPage, previousPage } = useContext(Context);
+  const { setCurrent, setValue } = useContext(SharedLayoutDataContext);
 
   let app: any;
   let canvas: any;
@@ -43,7 +46,7 @@ const Work = ({ props }: any): JSX.Element => {
       autoDensity: true,
       resolution: window.devicePixelRatio || 1,
       resizeTo: window,
-      // clearBeforeRender: true,
+      clearBeforeRender: true,
     });
 
     canvas.appendChild(app.view);
@@ -278,43 +281,6 @@ const Work = ({ props }: any): JSX.Element => {
 
       if (previousPage === "page-home") {
         containerImage.interactive = true;
-        // tl.to(image.transform.pivot, {
-        //   y: 0,
-        //   duration: 0.8,
-        //   ease: CustomEase.create(
-        //     "custom",
-        //     "M0,0 C0.126,0.382 0.112,0.752 0.392,0.892 0.466,0.929 0.818,1.001 1,1 "
-        //   ),
-        //   delay: 3,
-        //   onStart: () => {
-        //     gsap.to(titleWorks, {
-        //       xPercent: 0,
-        //       duration: 0.5,
-        //       ease: "Power2.ease",
-        //       delay: 0.5,
-        //     });
-        //   },
-        //   onComplete: () => {
-        //     gsap.to(title, {
-        //       yPercent: 0,
-        //       rotate: 0,
-        //       duration: 0.5,
-        //       ease: "Power2.ease",
-        //     });
-        //     gsap.to(innerItems, {
-        //       xPercent: 0,
-        //       duration: 0.5,
-        //       ease: "Power2.easeInOut",
-        //       delay: 0.5,
-        //     });
-        //     gsap.to(progressWork, {
-        //       opacity: 1,
-        //       duration: 0.5,
-        //       ease: "Power2.easeInOut",
-        //       delay: -0.5,
-        //     });
-        //   },
-        // });
         tl.set(image.transform.pivot, {
           y: 0,
         })
@@ -529,6 +495,14 @@ const Work = ({ props }: any): JSX.Element => {
   const onClick = (e: any) => {
     const el = e.target;
     const path = el.name;
+    const canvasRec = el.children[0].children[0]._boundsRect;
+    setValue({
+      x: canvasRec.x,
+      y: canvasRec.y,
+      width: canvasRec.width,
+      height: canvasRec.height,
+    });
+    setCurrent("canvasHome");
     router.push(path);
     setPreviousPage("page-home");
   };
@@ -609,7 +583,9 @@ const Work = ({ props }: any): JSX.Element => {
     render();
     return () => {
       previousPage;
-      app.destroy(true);
+      // setTimeout(function () {
+      //   app.destroy(true);
+      // }, 3000);
       window.removeEventListener("resize", resize);
     };
   }, [scrollEvent]);
