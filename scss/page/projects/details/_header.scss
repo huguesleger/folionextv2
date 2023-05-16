@@ -1,6 +1,11 @@
 .header-project {
   height: 100vh;
+  background-color: $dark_grey;
   .inner-header {
     height: 100%;
+    overflow: hidden;
+    .inner-img {
+      height: 100%;
+    }
   }
 }

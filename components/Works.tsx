@@ -46,10 +46,10 @@ const Work = ({ props }: any): JSX.Element => {
       autoDensity: true,
       resolution: window.devicePixelRatio || 1,
       resizeTo: window,
-      clearBeforeRender: true,
+      // clearBeforeRender: true,
     });
 
-    canvas.appendChild(app.view);
+    canvas?.appendChild(app.view);
 
     container = new PIXI.Container();
     app.stage.addChild(container);
@@ -413,6 +413,7 @@ const Work = ({ props }: any): JSX.Element => {
     const charHover = titleHoverActive?.querySelectorAll(".wrapper-word .char");
     const el = e.target.children[0].children[0];
     const tl = gsap.timeline();
+
     const tlSettings = {
       staggerVal: 0.015,
       charsDuration: 0.7,
@@ -494,65 +495,83 @@ const Work = ({ props }: any): JSX.Element => {
 
   const onClick = (e: any) => {
     const el = e.target;
+    const el2 = e.target.children[0];
     const path = el.name;
-    const canvasRec = el.children[0].children[0]._boundsRect;
+    const canvasRec = e.target._localBoundsRect;
+    console.log(el2, "elOnCLick");
+
     setValue({
       x: canvasRec.x,
-      y: canvasRec.y,
+      y: el.y + el._localBoundsRect.y,
       width: canvasRec.width,
       height: canvasRec.height,
     });
     setCurrent("canvasHome");
+    // app.stop();
     router.push(path);
     setPreviousPage("page-home");
+    // const tl = gsap.timeline();
+    // tl.to(el, {
+    //   width: width,
+    //   height: height,
+    //   ease: "Power2.easeInOut",
+    //   x: -width,
+    //   y: -113,
+    //   onComplete: () => {
+    //     // router.push(path);
+    //   },
+    // });
   };
 
-  const scrollEvent = (e: any) => {
-    scrollTarget = e.deltaY / 3;
+  const scrollEvent = () => {
+    refCanvas.current?.addEventListener("wheel", (e) => {
+      scrollTarget = e.deltaY / 3;
+      console.log(visibleImageIndex, "visibleImage");
 
-    const scrollY = window.scrollY;
-    const windowHeight = window.innerHeight;
+      const scrollY = window.scrollY;
+      const windowHeight = window.innerHeight;
 
-    visibleImageIndex = -1;
+      visibleImageIndex = -1;
 
-    const progressCircleLine: any = document.querySelector(
-      ".circle-line-progress"
-    );
+      const progressCircleLine: any = document.querySelector(
+        ".circle-line-progress"
+      );
 
-    thumbs.forEach((th, i) => {
-      const containerTop = th.container.position.y - scrollY;
-      const containerBottom = containerTop + th.image.height - margin - scroll;
+      thumbs?.forEach((th, i) => {
+        const containerTop = th.container.position.y - scrollY;
+        const containerBottom =
+          containerTop + th.image.height - margin - scroll;
 
-      if (containerTop < windowHeight && containerBottom > 0) {
-        visibleImageIndex = i;
-      }
-      if (
-        i === projets.length &&
-        th.container.y < 0 &&
-        th.container.y < -margin
-      ) {
-        visibleImageIndex = 0;
-      }
-    });
-
-    const titles = document.querySelectorAll(".title-item");
-    const numberItem: any = document.querySelector(".number-item span");
-
-    titles.forEach((title, i) => {
-      if (i === visibleImageIndex) {
-        title.classList.add("active");
-        if (numberItem != null) {
-          numberItem.innerHTML = visibleImageIndex + 1;
+        if (containerTop < windowHeight && containerBottom > 0) {
+          visibleImageIndex = i;
         }
-      } else {
-        title.classList.remove("active");
+        if (
+          i === projets.length &&
+          th.container.y < 0 &&
+          th.container.y < -margin
+        ) {
+          visibleImageIndex = 0;
+        }
+      });
+      const titles = document.querySelectorAll(".title-item");
+      const numberItem: any = document.querySelector(".number-item span");
+
+      titles.forEach((title: any, i: any) => {
+        if (i === visibleImageIndex) {
+          title.classList.add("active");
+          if (numberItem != null) {
+            numberItem.innerHTML = visibleImageIndex + 1;
+          }
+        } else {
+          title.classList.remove("active");
+        }
+      });
+
+      if (progressCircleLine) {
+        progressCircleLine.style.strokeDashoffset =
+          currentProgress + currentScroll / progress + "px";
       }
     });
-
-    if (progressCircleLine) {
-      progressCircleLine.style.strokeDashoffset =
-        currentProgress + currentScroll / progress + "px";
-    }
   };
 
   const resize = () => {
@@ -579,20 +598,18 @@ const Work = ({ props }: any): JSX.Element => {
   useEffect(() => {
     initPixi();
     add();
+    scrollEvent();
     filterAnim();
     render();
+    // app.start();
     return () => {
       previousPage;
-      // setTimeout(function () {
-      //   app.destroy(true);
-      // }, 3000);
+      // app.destroy(true);
       window.removeEventListener("resize", resize);
     };
-  }, [scrollEvent]);
+  }, []);
 
-  return (
-    <div ref={refCanvas} onWheel={scrollEvent} className="canvas-works"></div>
-  );
+  return <div ref={refCanvas} className="canvas-works"></div>;
 };
 
 export default Work;

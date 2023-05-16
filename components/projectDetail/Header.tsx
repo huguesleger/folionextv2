@@ -39,13 +39,23 @@ const Header = ({ image }: HeaderType): JSX.Element => {
           transition: { delay: 0, ...transition },
         }}
       >
-        <Image
-          src={image.url}
-          alt={image.alt}
-          width={image.width}
-          height={image.height}
-          className="img-cover"
-        />
+        <motion.div
+          className="inner-img"
+          initial={{ scale: 1.21, transformOrigin: "53% 84%" }}
+          animate={{
+            scale: 1,
+            transformOrigin: "50% 50%",
+            transition: { delay: 0, ...transition },
+          }}
+        >
+          <Image
+            src={image.url}
+            alt={image.alt}
+            width={image.width}
+            height={image.height}
+            className="img-cover"
+          />
+        </motion.div>
       </motion.div>
     </div>
   );
