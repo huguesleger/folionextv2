@@ -414,6 +414,13 @@ const Work = ({ props }: any): JSX.Element => {
     const el = e.target.children[0].children[0];
     const tl = gsap.timeline();
 
+    setValue({
+      x: e.target.x,
+      y: e.target.y,
+      width: e.target.width,
+      height: e.target.height,
+    });
+
     const tlSettings = {
       staggerVal: 0.015,
       charsDuration: 0.7,
@@ -495,10 +502,8 @@ const Work = ({ props }: any): JSX.Element => {
 
   const onClick = (e: any) => {
     const el = e.target;
-    const el2 = e.target.children[0];
     const path = el.name;
     const canvasRec = e.target._localBoundsRect;
-    console.log(el2, "elOnCLick");
 
     setValue({
       x: canvasRec.x,
@@ -506,27 +511,16 @@ const Work = ({ props }: any): JSX.Element => {
       width: canvasRec.width,
       height: canvasRec.height,
     });
+
     setCurrent("canvasHome");
-    // app.stop();
+    app.stop();
     router.push(path);
     setPreviousPage("page-home");
-    // const tl = gsap.timeline();
-    // tl.to(el, {
-    //   width: width,
-    //   height: height,
-    //   ease: "Power2.easeInOut",
-    //   x: -width,
-    //   y: -113,
-    //   onComplete: () => {
-    //     // router.push(path);
-    //   },
-    // });
   };
 
   const scrollEvent = () => {
     refCanvas.current?.addEventListener("wheel", (e) => {
       scrollTarget = e.deltaY / 3;
-      console.log(visibleImageIndex, "visibleImage");
 
       const scrollY = window.scrollY;
       const windowHeight = window.innerHeight;
@@ -601,7 +595,7 @@ const Work = ({ props }: any): JSX.Element => {
     scrollEvent();
     filterAnim();
     render();
-    // app.start();
+    app.start();
     return () => {
       previousPage;
       // app.destroy(true);

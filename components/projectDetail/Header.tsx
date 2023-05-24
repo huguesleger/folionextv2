@@ -41,7 +41,7 @@ const Header = ({ image }: HeaderType): JSX.Element => {
       >
         <motion.div
           className="inner-img"
-          initial={{ scale: 1.21, transformOrigin: "53% 84%" }}
+          initial={{ scale: 1.21, transformOrigin: "53% 50%" }}
           animate={{
             scale: 1,
             transformOrigin: "50% 50%",
@@ -54,6 +54,7 @@ const Header = ({ image }: HeaderType): JSX.Element => {
             width={image.width}
             height={image.height}
             className="img-cover"
+            priority
           />
         </motion.div>
       </motion.div>
