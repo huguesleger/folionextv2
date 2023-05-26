@@ -46,7 +46,7 @@ const Work = ({ props }: any): JSX.Element => {
       autoDensity: true,
       resolution: window.devicePixelRatio || 1,
       resizeTo: window,
-      // clearBeforeRender: true,
+      clearBeforeRender: true,
     });
 
     canvas?.appendChild(app.view);
@@ -597,7 +597,7 @@ const Work = ({ props }: any): JSX.Element => {
     // app.start();
     return () => {
       previousPage;
-      // app.destroy(true);
+      app.destroy(true);
       window.removeEventListener("resize", resize);
     };
   }, []);
