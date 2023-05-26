@@ -18,9 +18,6 @@ const Header = ({ image }: HeaderType): JSX.Element => {
   const { contextValue, current } = useContext(SharedLayoutDataContext);
   const { x, y, width, height } = contextValue;
 
-  console.log(current, "currentPage");
-  console.log(contextValue, "contextValue");
-
   return (
     <div className="header-project" data-scroll-section>
       <motion.div

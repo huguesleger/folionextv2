@@ -513,9 +513,8 @@ const Work = ({ props }: any): JSX.Element => {
     });
 
     setCurrent("canvasHome");
-    app.stop();
-    router.push(path);
     setPreviousPage("page-home");
+    router.push(path);
   };
 
   const scrollEvent = () => {
@@ -595,7 +594,7 @@ const Work = ({ props }: any): JSX.Element => {
     scrollEvent();
     filterAnim();
     render();
-    app.start();
+    // app.start();
     return () => {
       previousPage;
       // app.destroy(true);
