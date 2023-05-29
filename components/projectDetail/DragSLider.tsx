@@ -18,6 +18,7 @@ const DragSLider = ({ image }: DragType): JSX.Element => {
       height={image.height}
       src={image.url}
       alt={image.alt}
+      priority
     />
   );
 };

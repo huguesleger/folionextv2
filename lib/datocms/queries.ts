@@ -125,6 +125,13 @@ query MyQuery ($slug: String){
         width
       }
     }
+    imageSlider {
+      alt
+      height
+      id
+      url
+      width
+    }
     imageFull {
       alt
       height

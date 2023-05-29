@@ -595,12 +595,16 @@ const Work = ({ props }: any): JSX.Element => {
     filterAnim();
     render();
     // app.start();
+    thumbs.forEach((el) => {
+      router.prefetch(el.container.name);
+    });
+
     return () => {
       previousPage;
       app.destroy(true);
       window.removeEventListener("resize", resize);
     };
-  }, []);
+  }, [router]);
 
   return <div ref={refCanvas} className="canvas-works"></div>;
 };

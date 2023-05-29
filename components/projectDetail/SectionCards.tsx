@@ -19,6 +19,7 @@ const SectionCards = ({ image }: CardType): JSX.Element => {
         width={image.width}
         height={image.height}
         alt={image.alt}
+        priority
       />
     </div>
   );

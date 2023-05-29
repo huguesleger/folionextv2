@@ -18,6 +18,7 @@ const IdentityImage = ({ image }: IdentityImageType): JSX.Element => {
         width={image.width}
         height={image.height}
         alt={image.alt}
+        priority
       />
     </div>
   );

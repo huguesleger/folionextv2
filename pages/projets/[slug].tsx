@@ -103,7 +103,7 @@ const ProjectDetail: (props: {
 
   return (
     <>
-      <Header image={props.projet.imageFull} />
+      <Header image={props.projet.imageSlider} />
       <section
         className={`project-infos ${props.projet.colorText}`}
         data-scroll-section
@@ -126,6 +126,7 @@ const ProjectDetail: (props: {
           width={props.projet.imageGraphique.width}
           height={props.projet.imageGraphique.height}
           alt={props.projet.imageGraphique.alt}
+          priority
         />
       </section>
       <section className="section project-identity" data-scroll-section>
@@ -212,6 +213,7 @@ const ProjectDetail: (props: {
           width={props.projet.imageTemplateMobile.width}
           height={props.projet.imageTemplateMobile.height}
           alt={props.projet.imageTemplateMobile.alt}
+          priority
         />
       </section>
       <section
@@ -228,6 +230,7 @@ const ProjectDetail: (props: {
                 width={props.projet.imageDevice.width}
                 height={props.projet.imageDevice.height}
                 alt={props.projet.imageDevice.alt}
+                priority
               />
             </div>
           </div>
@@ -246,6 +249,7 @@ const ProjectDetail: (props: {
           width={props.projet.imageTemplateDesktopFull.width}
           height={props.projet.imageTemplateDesktopFull.height}
           alt={props.projet.imageTemplateDesktopFull.alt}
+          priority
         />
       </section>
       <section className="section project-template-desktop" data-scroll-section>
@@ -258,6 +262,7 @@ const ProjectDetail: (props: {
                 width={props.projet.imageTemplateDesktop.width}
                 height={props.projet.imageTemplateDesktop.height}
                 alt={props.projet.imageTemplateDesktop.alt}
+                priority
               />
             </div>
           </div>
